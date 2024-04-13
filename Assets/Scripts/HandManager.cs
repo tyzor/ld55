@@ -8,58 +8,84 @@ using TMPro;
 public class HandManager : MonoBehaviour
 {
     public DeckManager deckManager;
-    public GameObject handContainer; // Parent GameObject for cards
+    public GameObject[] cardHolders; // Array of GameObjects that represent card slots in the UI
     public List<Card> playerHand = new List<Card>();
-    public Card selectedCard; // The card selected for battle
+    public GameObject selectedCardObject; // GameObject of the currently selected card
 
     public void DrawCardsToHand(int count)
     {
+        if (deckManager == null || deckManager.playerDeck == null)
+        {
+            Debug.LogError("DeckManager or playerDeck is not properly initialized.");
+            return;
+        }
+
         for (int i = 0; i < count; i++)
         {
-            if (deckManager.playerDeck.Count > 0)
+            if (deckManager.playerDeck.Count > 0 && i < cardHolders.Length && cardHolders[i] != null)
             {
-                Card drawnCard = deckManager.DrawCard();
-                playerHand.Add(drawnCard);
-                AddCardToHandUI(drawnCard);
+                Card card = deckManager.DrawCard();
+                if (card != null)
+                {
+                    playerHand.Add(card);
+                    GameObject cardObject = DisplayCardInUI(card, i);
+                    cardHolders[i].SetActive(true); // Ensure the card slot is active
+                }
+                else
+                {
+                    Debug.LogError("Drawn card is null.");
+                }
+            }
+            else
+            {
+                if (i >= cardHolders.Length || cardHolders[i] == null)
+                    Debug.LogError("Card holder is not set or out of index: " + i);
+                if (deckManager.playerDeck.Count <= 0)
+                    Debug.LogError("No more cards to draw.");
             }
         }
     }
 
-    private Sprite GetCardSprite(Card card)
+
+    private GameObject DisplayCardInUI(Card card, int index)
     {
-        // Load the sprite for the card
-        string path = "Cards/" + card.rank.ToLower() + "_of_" + card.suit.ToLower();
-        return Resources.Load<Sprite>(path);
+        GameObject cardObject = cardHolders[index];
+        RawImage imageComponent = cardObject.GetComponent<RawImage>();
+        imageComponent.texture = deckManager.GetCardTexture(card);
+        cardObject.SetActive(true); // Ensure the card is visible
+        return cardObject;
     }
 
-
-    private void AddCardToHandUI(Card card)
+    private void SelectCard(Card card, GameObject cardObject)
     {
-        // Assuming you have a method to instantiate card GameObjects properly
-        GameObject cardGO = InstantiateCardGameObject(card);
-        cardGO.transform.SetParent(handContainer.transform, false);
-        // Add click listener for selection
-        cardGO.GetComponent<Button>().onClick.AddListener(() => SelectCard(card));
+        if (selectedCardObject != null)
+        {
+            // Disable the highlight on previously selected card
+            selectedCardObject.transform.Find("Highlight").gameObject.SetActive(false);
+        }
+
+        selectedCardObject = cardObject;
+        // Enable the highlight on the new selected card
+        selectedCardObject.transform.Find("Highlight").gameObject.SetActive(true);
     }
 
-    private GameObject InstantiateCardGameObject(Card card)
+    public void HighlightCard(Card card)
     {
-        GameObject cardGO = new GameObject("Card");
-        var image = cardGO.AddComponent<Image>();
-        var button = cardGO.AddComponent<Button>();
-        image.sprite = GetCardSprite(card); // Your method to get the sprite
-        return cardGO;
+        // Find the card object in the hand
+        int index = playerHand.IndexOf(card);
+        if (index != -1)
+        {
+            SelectCard(card, cardHolders[index]);
+        }
     }
 
-    private void SelectCard(Card card)
+    public void ClearHandDisplay()
     {
-        selectedCard = card;
-        // Highlight the selected card visually
-        HighlightCard(card);
-    }
-
-    private void HighlightCard(Card card)
-    {
-        // Implementation to visually distinguish the selected card
+        foreach (GameObject holder in cardHolders)
+        {
+            holder.SetActive(false); // Hide all card holders
+            holder.transform.Find("Highlight").gameObject.SetActive(false); // Ensure highlights are turned off
+        }
+        playerHand.Clear();
     }
 }
