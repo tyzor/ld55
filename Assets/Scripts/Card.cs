@@ -1,6 +1,4 @@
-using System;
-
-namespace Card_holder
+namespace CardHolder // Note the correct namespace here
 {
     public class Card
     {
