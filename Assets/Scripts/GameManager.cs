@@ -12,8 +12,12 @@ public class GameManager : MonoBehaviour
     public RawImage selectedCardDisplay;
     public TextMeshProUGUI playerPointsText; // Points UI for the player
     public TextMeshProUGUI aiPointsText; // Points UI for the AI
+    public RawImage playerCardDisplay; // The display for the player's chosen card for battle
+    private Card currentSelectedCard;
+    public RawImage largeCardDisplay; // The large central display for the selected card
 
     private Card selectedCard;
+    private Card aiCard;
     private int playerPoints = 0;
     private int aiPoints = 0;
 
@@ -22,24 +26,27 @@ public class GameManager : MonoBehaviour
         // Initialize game setup if needed
     }
 
-    public void SelectCardForBattle(Card card)
+    public void SelectCardForBattle(Card selectedCard)
     {
-        // Update the selected card data and UI display
-        selectedCard = card;
-        selectedCardDisplay.texture = deckManager.GetCardTexture(card); // Update the display
+        currentSelectedCard = selectedCard;
+        playerCardDisplay.texture = deckManager.GetCardTexture(selectedCard);
     }
 
     public void Draw()
     {
+        // Draw AI card and set it for the battle
+        deckManager.DrawAICard();
+        aiCard = deckManager.lastAICard; // Ensure this is the card used in Battle method
         // Call HandManager to draw cards to the player's hand
         handManager.DrawCardsToHand(3);
     }
 
       public void Battle()
     {
-        if (selectedCard == null || deckManager.lastAICard == null)
+        // Use aiCard for the battle instead of deckManager.lastAICard
+        if (selectedCard == null || aiCard == null)
         {
-            resultText.text = "Cannot battle without selected card and AI card.";
+            Debug.LogError("Cannot proceed to battle without both cards being selected.");
             return;
         }
 
@@ -116,6 +123,11 @@ public class GameManager : MonoBehaviour
         // Reset the selected card and any related UI
         selectedCard = null;
         selectedCardDisplay.texture = null; // Set back to default image if you have one
+    }
+
+        public void UpdateLargeCardDisplay(Card selectedCard)
+    {
+        largeCardDisplay.texture = deckManager.GetCardTexture(selectedCard);
     }
 
     // Implement additional methods as necessary for your game's logic
