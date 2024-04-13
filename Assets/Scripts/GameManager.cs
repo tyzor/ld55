@@ -8,144 +8,116 @@ public class GameManager : MonoBehaviour
 {
     public DeckManager deckManager;
     public HandManager handManager;
-    public RawImage aiCardDisplay;
     public TextMeshProUGUI resultText;
+    public RawImage selectedCardDisplay;
     public TextMeshProUGUI playerPointsText; // Points UI for the player
     public TextMeshProUGUI aiPointsText; // Points UI for the AI
-    public Texture cardBackTexture; // Assign a card back texture in the inspector
 
-    private int roundsRemaining = 11;
+    private Card selectedCard;
     private int playerPoints = 0;
     private int aiPoints = 0;
-    private Card selectedCard; // The selected card for battle
 
     void Start()
     {
-        // Set the AI card back image once
-        aiCardDisplay.texture = cardBackTexture;
-        handManager.ClearHandDisplay(); // Ensure the hand is cleared on start
+        // Initialize game setup if needed
+    }
+
+    public void SelectCardForBattle(Card card)
+    {
+        // Update the selected card data and UI display
+        selectedCard = card;
+        selectedCardDisplay.texture = deckManager.GetCardTexture(card); // Update the display
     }
 
     public void Draw()
     {
-        handManager.DrawCardsToHand(3); // Make sure this call is correct and handManager is assigned.
+        // Call HandManager to draw cards to the player's hand
+        handManager.DrawCardsToHand(3);
     }
 
-    public void SelectCardForBattle(int cardIndex)
-    {
-        if (cardIndex < 0 || cardIndex >= handManager.playerHand.Count)
-        {
-            Debug.LogError("Invalid card index selected.");
-            return;
-        }
-
-        // Set the selected card from the hand
-        selectedCard = handManager.playerHand[cardIndex];
-        // Optionally highlight the card or update the UI to reflect selection
-        handManager.HighlightCard(selectedCard);
-    }
-
-    public void Battle()
+      public void Battle()
     {
         if (selectedCard == null || deckManager.lastAICard == null)
         {
-            Debug.LogError("Cannot battle without selected card and AI card.");
+            resultText.text = "Cannot battle without selected card and AI card.";
             return;
         }
 
-        RevealAICard();
+        // Reveal AI card and determine the winner
         bool playerWon = DetermineWinner(selectedCard, deckManager.lastAICard);
 
+        // Update points and display the result
         if (playerWon)
         {
             playerPoints++;
+            resultText.text = "Player wins!";
+            // Additional logic to handle the player winning
         }
         else
         {
             aiPoints++;
+            resultText.text = "AI wins!";
+            // Additional logic to handle the AI winning
         }
 
+        // Update the points display
         playerPointsText.text = $"Player Points: {playerPoints}";
         aiPointsText.text = $"AI Points: {aiPoints}";
 
-        CollectCards(selectedCard, deckManager.lastAICard, playerWon);
-        UpdateRoundCount();
-
-        // Clear selected card after battle
-        selectedCard = null;
-        handManager.ClearHandDisplay();  // Optionally clear the hand display
+        // Collect cards, handle the end of the battle, etc.
     }
 
-    private void RevealAICard()
-    {
-        aiCardDisplay.texture = deckManager.GetCardTexture(deckManager.lastAICard);
-    }
-
+    // This method compares the cards and determines the winner of the battle
     private bool DetermineWinner(Card playerCard, Card aiCard)
     {
         int playerCardValue = GetCardValue(playerCard);
         int aiCardValue = GetCardValue(aiCard);
-        resultText.text = playerCardValue > aiCardValue ? "Player wins!" : "AI wins!";
+        // You could have additional logic here if there's a tie (War)
         return playerCardValue > aiCardValue;
     }
 
-    private void CollectCards(Card playerCard, Card aiCard, bool playerWon)
-    {
-        deckManager.CollectCards(playerCard, aiCard, playerWon);
-    }
-
-    private void UpdateRoundCount()
-    {
-        roundsRemaining--;
-        if (roundsRemaining <= 0)
-        {
-            Debug.Log("New game phase should start now.");
-        }
-    }
-
+    // Call this when there's a tie and "War" needs to happen
     public void War()
     {
-        Debug.Log("Entering WAR!");
-        // Implement the WAR mechanics here
+        // Placeholder for the "War" mechanic implementation
+        Debug.Log("War! Each player draws three more cards.");
+        // Implement the mechanics of the "War" scenario here
     }
 
-    void UpdateCardDisplay(Card card, RawImage display)
+    private int GetCardValue(Card card)
     {
-        string imageFileName = card.rank.ToLower() + "_of_" + card.suit.ToLower();
-        Texture2D cardImage = Resources.Load<Texture2D>("cards/" + imageFileName);
-        if (cardImage != null)
+        Dictionary<string, int> cardValues = new Dictionary<string, int>
         {
-            display.texture = cardImage;
-        }
-        else
-        {
-            Debug.LogError("Image not found: " + imageFileName);
-        }
-    }
-
-    int GetCardValue(Card card)
-    {
-        if (card == null)
-        {
-            Debug.LogError("Card is null");
-            return 0;
-        }
-
-        Dictionary<string, int> rankValues = new Dictionary<string, int>()
-        {
-            {"2", 2}, {"3", 3}, {"4", 4}, {"5", 5}, {"6", 6},
-            {"7", 7}, {"8", 8}, {"9", 9}, {"10", 10},
-            {"Jack", 11}, {"Queen", 12}, {"King", 13}, {"Ace", 14}
+            { "2", 2 }, { "3", 3 }, { "4", 4 }, { "5", 5 }, { "6", 6 },
+            { "7", 7 }, { "8", 8 }, { "9", 9 }, { "10", 10 },
+            { "Jack", 11 }, { "Queen", 12 }, { "King", 13 }, { "Ace", 14 }
         };
 
-        if (rankValues.TryGetValue(card.rank, out int value))
+        if (cardValues.TryGetValue(card.rank, out int value))
         {
             return value;
         }
         else
         {
             Debug.LogError($"Invalid card rank: {card.rank}");
-            return 0; // Invalid rank case
+            return 0; // Return 0 or some default value for invalid rank
         }
     }
+
+
+    private void RevealAICard()
+    {
+        // Logic to update the AI card display, showing the AI's chosen card
+    }
+
+    private void AfterBattleCleanup()
+    {
+        // Cleanup logic, such as returning non-selected cards to the deck
+        // Reset the selected card and any related UI
+        selectedCard = null;
+        selectedCardDisplay.texture = null; // Set back to default image if you have one
+    }
+
+    // Implement additional methods as necessary for your game's logic
+    // This may include methods for the "War" mechanic, updating game states, etc.
 }
