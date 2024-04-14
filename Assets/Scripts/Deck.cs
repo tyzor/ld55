@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -9,6 +10,7 @@ public class Deck : MonoBehaviour
     [SerializeField]
     private Card cardPrefab;
     
+    public event Action<List<CardData>> DeckChangedAction; 
 
     public void Init()
     {
@@ -33,6 +35,7 @@ public class Deck : MonoBehaviour
         {
             var cardData = decklist[0];
             decklist.RemoveAt(0);
+            DeckChanged();
             Card card = Instantiate<Card>(cardPrefab,transform.parent);
             card.transform.position = GetTopCardPosition();
             card.cardData = cardData;
@@ -59,10 +62,30 @@ public class Deck : MonoBehaviour
         return result + Vector3.up * 0.01f;
     }
 
-    private void CreateTestCard() {
-
-        
-
-
+    public void AddCardsToBottom(Card[] cards)
+    {
+        foreach(Card card in cards)
+        {
+            decklist.Add(card.cardData);
+            DeckChanged();
+        }
     }
+
+    public void AddCardToBottom(Card card)
+    {
+        Card[] cards = { card };
+        AddCardsToBottom(cards);
+    }
+
+    public bool CanDraw(int numCards)
+    {
+        return decklist.Count >= numCards;
+    }
+
+    private void DeckChanged()
+    {
+        DeckChangedAction?.Invoke(decklist);
+    }
+
+
 }

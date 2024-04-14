@@ -204,6 +204,10 @@ MonoBehaviour:
   handPosition: -1
   cardValueText: {fileID: 1382387585174768921}
   cardVisDataSO: {fileID: 11400000, guid: d9788e0cab2bb442f91d4405f392cfde, type: 2}
+  hoverAnimationTime: 0.1
+  mouseHoverMask:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!65 &6523301555511031294
 BoxCollider:
   m_ObjectHideFlags: 0

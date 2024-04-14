@@ -11,9 +11,9 @@ namespace Gameplay
     public class GameplayController : MonoBehaviour
     {
         [SerializeField]
-        private PlayerController player;
+        private PlayerController playerController;
         [SerializeField]
-        private EnemyController enemy;
+        private EnemyController enemyController;
 
 
         //============================================================================================================//
@@ -56,8 +56,8 @@ namespace Gameplay
         private IEnumerator LoadGameCoroutine()
         {
             // Init decks
-            player.Init();
-            enemy.Init();
+            playerController.Init();
+            enemyController.Init();
 
             // Start Round
             yield return StartCoroutine(DoRound());
@@ -71,32 +71,48 @@ namespace Gameplay
             // Start Round
             GameInputDelegator.LockInputs = true;
 
+            // Check for win condition
+            if(!enemyController.CanDraw())
+            {
+                yield return StartCoroutine(WinCoroutine());
+                yield break;
+            }
+            
+            // Check for lose condition
+            if(!playerController.CanDraw())
+            {
+                yield return StartCoroutine(LoseCoroutine());
+                yield break;
+            }
+
             // Draw and flip enemy card
-            yield return enemy.PlayTopCard();
+            yield return enemyController.PlayTopCard();
 
             // Draw player card selection
-            yield return player.DrawCards(5);
+            yield return playerController.DrawCards();
 
             // Wait for player to pick
             GameInputDelegator.LockInputs = false;
 
-            while(player.playedCard == null)
+            while(playerController.playedCard == null)
             {
                 yield return null;
             }
 
             GameInputDelegator.LockInputs = true;
 
-            Debug.Log($"Player selected choice {player.playedCard}");
+            Debug.Log($"Player selected choice {playerController.playedCard}");
 
             // Place player card
-            yield return player.PlayCard(player.playedCard);
+            yield return playerController.PlayCard(playerController.playedCard);
 
             // Flip both cards and determine winner
-            // Move cards to winner's deck and assign resources
-            // Start new round
+            yield return StartCoroutine(BattleCards());
 
-            yield return null;
+            yield return new WaitForSeconds(0.3f);
+
+            // Start new round
+            StartCoroutine(DoRound());
 
         }
 
@@ -107,6 +123,42 @@ namespace Gameplay
             onCompleted?.Invoke();
         }
         
+        // Compare played cards and return winner
+        private IEnumerator BattleCards() {
+            
+            int playerValue = playerController.playedCard.cardData.value;
+            int enemyValue = enemyController.playedCard.cardData.value;
+
+            if(playerValue == enemyValue)
+            {
+                // We have a tie here -- do special tie rules
+                yield return playerController.BattleTied();
+                yield return enemyController.BattleTied();
+                yield break;   
+            }
+
+            // TODO -- add power custom logic here
+            if(playerValue > enemyValue)
+                yield return playerController.BattleCards(enemyController);
+            else
+                yield return enemyController.BattleCards(playerController);
+    
+        }
+
+        private IEnumerator WinCoroutine()
+        {
+            // TODO -- win VFX
+            Debug.Log("PLAYER WON!!!!");
+            yield return new WaitForSeconds(.5f);
+        }
+
+        private IEnumerator LoseCoroutine()
+        {
+            // TODO -- win VFX
+            Debug.Log("PLAYER LOST!!!!");
+            // TODO -- show replay level
+            yield return new WaitForSeconds(.5f);
+        }
 
         private void OnGameStateChanged(GAME_STATE newGameState)
         {
@@ -129,8 +181,10 @@ namespace Gameplay
 
         private void OnGameUIAction(GAME_UI_ACTION action)
         {
+            /*
             if(action == GAME_UI_ACTION.DRAW)
-                player.DrawCards(3);
+                playerController.DrawCards(3);
+                |*/
                 
         }
 

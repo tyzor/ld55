@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using GameInput;
 using TMPro;
 using UnityEngine;
 
@@ -54,6 +55,16 @@ public class Card : MonoBehaviour
 
     private Material _frontMaterial;
 
+    [SerializeField]
+    private float hoverAnimationTime = .3f;
+        [SerializeField]
+    private float hoverScale = 1.2f;
+
+
+    [SerializeField]
+    LayerMask mouseHoverMask;
+
+    private bool _hasHover;
 
     void Awake()
     {
@@ -68,6 +79,49 @@ public class Card : MonoBehaviour
         {
             cardValueText.text = cardData.value.ToString(); 
             cardValueText.color = visData.fontColor;
+        }
+    }
+
+    private IEnumerator HoverAnimation(float timer, bool over)
+    {
+        Vector3 startScale = transform.localScale;
+        Vector3 targetScale = over ? Vector3.one * hoverScale : Vector3.one;
+        for(float t=0;t<timer;t+=Time.deltaTime)
+        {
+            transform.localScale = Vector3.Lerp(startScale,targetScale,t/timer);
+
+            // Early breaks if we have a change in value
+            if(_hasHover != over) break;
+
+            yield return null;
+        }
+    }
+
+    public void SetInteractable(bool value) {
+        GetComponent<Collider>().enabled = value;
+    }
+
+    void OnMouseOver()
+    {
+        Debug.Log("MouseOver collider event");
+        if(_hasHover) return;
+        _hasHover = true;
+        TriggerHover(true);   
+    }
+    void OnMouseExit()
+    {
+        Debug.Log("MouseExit collider event");
+        if(!_hasHover) return;
+        _hasHover = false;
+        TriggerHover(false);
+    }
+
+    void TriggerHover(bool enter)
+    {
+        var mask = 1 << gameObject.layer;
+        if( (mask & mouseHoverMask.value) != 0)
+        {
+            StartCoroutine(HoverAnimation(hoverAnimationTime,enter));
         }
     }
 

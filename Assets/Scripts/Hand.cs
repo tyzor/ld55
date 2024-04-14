@@ -31,13 +31,14 @@ public class Hand : MonoBehaviour
         float cardSize = _cardBounds.extents.x * 2f;
         float spacing = Mathf.Min((handSize - (cardSize * numCards)) / (numCards - 1), maxDistance);
         float totalHandSize = cardSize * numCards + spacing * (numCards-1);
-        float leftOffset = (handSize - totalHandSize) / 2f - handSize / 2f;
+        
+        float handLeftStart = _bounds.center.x - _bounds.extents.x + cardSize/2f;
+        float leftOffset = (handSize - totalHandSize) / 2f;
 
-        Debug.Log($"{handSize} - {totalHandSize} - {spacing} - {cardSize} - {leftOffset}");
 
         for(int i=0; i<numCards;i++)
         {
-            handPos.Add(new Vector3(leftOffset + cardSize*i + spacing*i, _bounds.center.y, _bounds.center.z));
+            handPos.Add(new Vector3(handLeftStart + leftOffset + (cardSize+spacing)*i, _bounds.center.y + i*0.001f, _bounds.center.z));
         }
 
         return handPos.ToArray();

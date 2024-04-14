@@ -25,6 +25,10 @@ public class EnemyController : PlayerController
             cards[0].transform.rotation = Quaternion.Lerp(startRotation, Quaternion.identity, t/cardDrawAnimationTime);
             yield return null;
         }
+        cards[0].transform.position = playedCardPosition.position;
+        cards[0].transform.rotation = Quaternion.identity;
+
+        playedCard = cards[0];
 
         Debug.Log("playtopcardcoroutine finished");
     }

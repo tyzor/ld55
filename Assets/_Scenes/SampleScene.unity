@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.1766085, g: 0.22105813, b: 0.30336472, a: 1}
+  m_IndirectSpecularColor: {r: 0.17660902, g: 0.22105885, b: 0.30336595, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -513,7 +513,7 @@ Transform:
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 5, z: 0}
+  m_LocalPosition: {x: 0, y: 6, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1374,7 +1374,7 @@ Transform:
   m_GameObject: {fileID: 804223864}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.07, y: 0, z: 1.92}
+  m_LocalPosition: {x: 4.09, y: 0, z: 2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1668,7 +1668,7 @@ Transform:
   m_GameObject: {fileID: 953131588}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.04, y: 0, z: -2.15}
+  m_LocalPosition: {x: -4.32, y: 0, z: 2.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2264,7 +2264,7 @@ Transform:
   m_GameObject: {fileID: 1563842331}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.75, y: 0, z: 1.78}
+  m_LocalPosition: {x: -4.13, y: 0, z: -2.03}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2513,21 +2513,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 5589665030302740403, guid: fe753fe09c898df4ca2c1aa6099ca3fb,
-        type: 3}
-      propertyPath: handPositions.Array.data[0]
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 5589665030302740403, guid: fe753fe09c898df4ca2c1aa6099ca3fb,
-        type: 3}
-      propertyPath: handPositions.Array.data[1]
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 5589665030302740403, guid: fe753fe09c898df4ca2c1aa6099ca3fb,
-        type: 3}
-      propertyPath: handPositions.Array.data[2]
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 5816452164775214454, guid: fe753fe09c898df4ca2c1aa6099ca3fb,
         type: 3}
       propertyPath: m_Name
@@ -2674,6 +2659,16 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 1266449402}
+    - target: {fileID: 1128259285919478535, guid: 1c738a3a6fa55e8409c8a783e6bfc288,
+        type: 3}
+      propertyPath: enemyController
+      value: 
+      objectReference: {fileID: 2071353922}
+    - target: {fileID: 1128259285919478535, guid: 1c738a3a6fa55e8409c8a783e6bfc288,
+        type: 3}
+      propertyPath: playerController
+      value: 
+      objectReference: {fileID: 1266449402}
     - target: {fileID: 1422668390721769274, guid: 1c738a3a6fa55e8409c8a783e6bfc288,
         type: 3}
       propertyPath: m_Name
@@ -2796,6 +2791,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7940347740145122316, guid: e382f4f7224231b46a85c809351634fb,
+        type: 3}
+      propertyPath: cardCaptureCurve.m_Curve.Array.data[1].time
+      value: 0.6306272
+      objectReference: {fileID: 0}
+    - target: {fileID: 7940347740145122316, guid: e382f4f7224231b46a85c809351634fb,
+        type: 3}
+      propertyPath: cardCaptureCurve.m_Curve.Array.data[1].value
+      value: -0.31168064
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
