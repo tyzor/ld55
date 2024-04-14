@@ -115,7 +115,7 @@ GameObject:
   - component: {fileID: 2944929085520129158}
   - component: {fileID: 4420799900429360976}
   - component: {fileID: 6523301555511031294}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Card3D
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -202,7 +202,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   handPosition: -1
-  cardValueText: {fileID: 0}
+  cardValueText: {fileID: 1382387585174768921}
+  cardVisDataSO: {fileID: 11400000, guid: d9788e0cab2bb442f91d4405f392cfde, type: 2}
 --- !u!65 &6523301555511031294
 BoxCollider:
   m_ObjectHideFlags: 0

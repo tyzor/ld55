@@ -62,6 +62,11 @@ public class PlayerController : MonoBehaviour
         var cards = deck.DrawCards(num);
         hand = cards;
 
+        foreach(Card card in hand)
+        {
+            card.gameObject.layer = LayerMask.NameToLayer("Card");
+        }
+
         var startPosition = deck.GetTopCardPosition();
         var startRotation = Quaternion.Euler(new Vector3(0,0,-180));
         for(float t=0;t<cardDrawAnimationTime;t+=Time.deltaTime)

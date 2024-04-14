@@ -8,7 +8,8 @@ public enum CARDSUIT {
     Fire,
     Water,
     Earth,
-    Wind
+    Metal,
+    Wood
 }
 
 public class CardData
@@ -38,8 +39,7 @@ public class Card : MonoBehaviour
         get => _cardData;
         set {
             _cardData = value;
-            if(cardValueText)
-                cardValueText.text = value.value.ToString(); 
+            RenderCard();
         }
     }
     private CardData _cardData;
@@ -49,9 +49,27 @@ public class Card : MonoBehaviour
     [SerializeField]
     TextMeshProUGUI cardValueText;
 
-    void Start()
-    {
+    [SerializeField]
+    CardVisualDataSO cardVisDataSO;
 
+    private Material _frontMaterial;
+
+
+    void Awake()
+    {
+        _frontMaterial = GetComponent<MeshRenderer>().materials[0];
     }
+
+    private void RenderCard()
+    {
+        var visData = cardVisDataSO.GetData(cardData.suit);
+        _frontMaterial.SetTexture("_Texture", visData.frontTexture);
+        if(cardValueText)
+        {
+            cardValueText.text = cardData.value.ToString(); 
+            cardValueText.color = visData.fontColor;
+        }
+    }
+
 
 }
