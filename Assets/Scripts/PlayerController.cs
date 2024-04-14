@@ -8,10 +8,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     protected Deck deck;
 
-    private List<Card> hand = new List<Card>();
     [SerializeField]
-    protected Transform[] handPositions;
-
+    private Hand _hand;
+    
     [SerializeField]
     protected Transform playedCardPosition;
 
@@ -42,7 +41,6 @@ public class PlayerController : MonoBehaviour
         GameInputDelegator.OnLeftClick -= OnLeftClick;
     }
 
-
     public void Init()
     {
         // Do any setup here
@@ -60,20 +58,21 @@ public class PlayerController : MonoBehaviour
     {
         Debug.Log($"{name} drawing {num} cards");
         var cards = deck.DrawCards(num);
-        hand = cards;
+        _hand.cards = cards;
 
-        foreach(Card card in hand)
+        foreach(Card card in _hand.cards)
         {
             card.gameObject.layer = LayerMask.NameToLayer("Card");
         }
 
         var startPosition = deck.GetTopCardPosition();
         var startRotation = Quaternion.Euler(new Vector3(0,0,-180));
+        var handPositions =  _hand.GetHandPositions(cards.Count);
         for(float t=0;t<cardDrawAnimationTime;t+=Time.deltaTime)
         {
             for(int i=0;i<cards.Count;i++)
             {
-                cards[i].transform.position = Vector3.Lerp(startPosition, handPositions[i].position, t / cardDrawAnimationTime) + (Vector3.up * cardFlipHeightScale * cardFlipHeightCurve.Evaluate(t/cardDrawAnimationTime));
+                cards[i].transform.position = Vector3.Lerp(startPosition, handPositions[i], t / cardDrawAnimationTime) + (Vector3.up * cardFlipHeightScale * cardFlipHeightCurve.Evaluate(t/cardDrawAnimationTime));
                 cards[i].transform.rotation = Quaternion.Lerp(startRotation, Quaternion.identity, t/cardDrawAnimationTime);
                 cards[i].handPosition = i;
             }
@@ -112,13 +111,14 @@ public class PlayerController : MonoBehaviour
 
         // Send other cards back to deck
         Quaternion targetRot = Quaternion.Euler(new Vector3(0,0,180));
+        var handPositions = _hand.GetHandPositions(_hand.cards.Count);
         for(float t=0;t<cardPlayAnimationTime;t+=Time.deltaTime)    
         {
-            for(int i=0;i<hand.Count;i++)
+            for(int i=0;i<_hand.cards.Count;i++)
             {
-                if(hand[i] == card) continue;
-                hand[i].transform.position = Vector3.Lerp(handPositions[i].position, deck.transform.position, t / cardPlayAnimationTime);
-                hand[i].transform.rotation = Quaternion.Lerp(Quaternion.identity, targetRot, t/cardPlayAnimationTime);
+                if(_hand.cards[i] == card) continue;
+                _hand.cards[i].transform.position = Vector3.Lerp(handPositions[i], deck.transform.position, t / cardPlayAnimationTime);
+                _hand.cards[i].transform.rotation = Quaternion.Lerp(Quaternion.identity, targetRot, t/cardPlayAnimationTime);
             }
             yield return null;
         }

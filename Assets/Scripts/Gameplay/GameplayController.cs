@@ -75,7 +75,7 @@ namespace Gameplay
             yield return enemy.PlayTopCard();
 
             // Draw player card selection
-            yield return player.DrawCards(3);
+            yield return player.DrawCards(5);
 
             // Wait for player to pick
             GameInputDelegator.LockInputs = false;
