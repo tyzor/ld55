@@ -14,6 +14,9 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI aiPointsText; // Points UI for the AI
     public RawImage playerCardDisplay;
     public RawImage aiCardDisplay;
+    public int playerEnergy = 0; // Current energy of the player
+    public int energyGain = 1; // Amount of energy gained per specified event
+    public int summonCost = 10; // Energy cost to activate a summon effect
     
 
     private Card selectedCard;
@@ -71,7 +74,7 @@ public class GameManager : MonoBehaviour
         // Update the points display
         playerPointsText.text = $"Player Points: {playerPoints}";
         aiPointsText.text = $"AI Points: {aiPoints}";
-
+        IncrementEnergy();
         // Collect cards, handle the end of the battle, etc.
     }
 
@@ -124,8 +127,71 @@ public class GameManager : MonoBehaviour
         // Reset the selected card and any related UI
         selectedCard = null;
         selectedCardDisplay.texture = null; // Set back to default image if you have one
+        CheckEnergyAndSummon();
     }
 
-    // Implement additional methods as necessary for your game's logic
-    // This may include methods for the "War" mechanic, updating game states, etc.
+    public void IncrementEnergy()
+    {
+        playerEnergy += energyGain;
+        CheckEnergyAndSummon(); // Check if summon can be activated after energy increment
+    }
+
+    void CheckEnergyAndSummon()
+    {
+        if (playerEnergy >= summonCost)
+        {
+            playerEnergy -= summonCost; // Deduct the energy cost
+            ActivateSummonEffect(SelectSummonEffect()); // Activate an effect based on some selection logic
+        }
+    }
+
+    public void SummonMenu()
+    {
+        ActivateSummonEffect(1);
+    }
+
+    public void ActivateSummonEffect(int effectId)
+    {
+        switch (effectId)
+        {
+            case 1: // Horse
+                handManager.DrawCardsToHand(1);
+                break;
+            case 2: // Dragon
+                deckManager.IncreaseSuitValue(1); // Implement this method in DeckManager
+                break;
+            case 3: // Rabbit
+                deckManager.ConvertRank("increase"); // Implement this method in DeckManager
+                break;
+            case 4: // Monkey
+                deckManager.ShuffleDeck(deckManager.aiDeck);
+                deckManager.ReplaceAllCardsWithRandomValues(); // Implement in DeckManager
+                break;
+            case 6: // Rooster
+                // Implement double energy gains from winning, use a counter to track turns
+                break;
+            case 7: // Snake
+                // Implement double energy gains from losing, use a counter to track turns
+                break;
+            case 8: // Ox
+                // Automatically win the next battle
+                break;
+            case 9: // Tiger
+                // Implement functionality to see opponent's cards
+                break;
+            case 10: // Dog
+                // Reduce the next summon energy requirement by half
+                break;
+            case 11: // Sheep
+                deckManager.ReplaceAICardWithLowerRank(); // Implement this in DeckManager
+                break;
+            case 12: // Rat
+                deckManager.CutDecksInHalf(); // Implement this in DeckManager
+                break;
+            default:
+                Debug.LogError("Summon effect not recognized.");
+                break;
+        }
+    }
+
 }

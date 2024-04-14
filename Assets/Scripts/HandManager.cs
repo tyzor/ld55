@@ -76,6 +76,4 @@ public class HandManager : MonoBehaviour
         }
         selectedIndex = -1; // Reset the selected index
     }
-
-    // Add other necessary methods...
 }

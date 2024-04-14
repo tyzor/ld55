@@ -169,4 +169,30 @@ public class DeckManager : MonoBehaviour
         }
     }
 
+    public void IncreaseSuitValue(int increment)
+    {
+        // Go through each deck and increment the value of cards from a specific suit
+    }
+
+    public void ConvertRank(string action)
+    {
+        // Convert all cards of a specific rank to a higher rank
+    }
+
+    public void ReplaceAllCardsWithRandomValues()
+    {
+        // Replace all cards in player and AI decks with cards of random ranks and suits
+    }
+
+    public void ReplaceAICardWithLowerRank()
+    {
+        // Replace the last drawn AI card with a card of lower rank if possible
+    }
+
+    public void CutDecksInHalf()
+    {
+        // Reduce the size of both the player's and AI's decks by half
+    }
+
+
 }
