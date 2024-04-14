@@ -84,6 +84,7 @@ GameObject:
   - component: {fileID: 7721050624681918980}
   - component: {fileID: 1686798667876073379}
   - component: {fileID: -4678904568853163017}
+  - component: {fileID: 2389489957312588493}
   m_Layer: 5
   m_Name: card_prefab
   m_TagString: Untagged
@@ -190,15 +191,37 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 11500000, guid: dbdc9b3591ae045a090b7b223d744967, type: 3}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
-        m_Mode: 1
+      - m_Target: {fileID: 2389489957312588493}
+        m_TargetAssemblyTypeName: HandManager, Assembly-CSharp
+        m_MethodName: OnCardClicked
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &2389489957312588493
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5979954690051890599}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbdc9b3591ae045a090b7b223d744967, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  deckManager: {fileID: 0}
+  gameManager: {fileID: 0}
+  cardHolders: []
+  selectionHighlight: {fileID: 0}
+  largeCardDisplay: {fileID: 0}
+  cardButtons: []
+  cardObjectsInHand:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}

@@ -12,7 +12,6 @@ public class DeckManager : MonoBehaviour
     public RawImage cardDisplay;
     public Card lastAICard;
     public Card lastPlayerCard;
-    public Texture2D cardBackTexture;
 
 
     void Start()

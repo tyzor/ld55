@@ -404,6 +404,17 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -4678904568853163017, guid: c712972dad74a4894b7ceb7ee8a6d150,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 11500000, guid: dbdc9b3591ae045a090b7b223d744967,
+        type: 3}
+    - target: {fileID: -4678904568853163017, guid: c712972dad74a4894b7ceb7ee8a6d150,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1015339813565962317, guid: c712972dad74a4894b7ceb7ee8a6d150,
         type: 3}
       propertyPath: m_Pivot.x
@@ -4551,7 +4562,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cardDisplay: {fileID: 1907192157}
-  cardBackTexture: {fileID: 2800000, guid: 1b95697a38eb4dd49a6a67b6b8560af9, type: 3}
 --- !u!4 &1884577187
 Transform:
   m_ObjectHideFlags: 0
@@ -4582,10 +4592,10 @@ MonoBehaviour:
   deckManager: {fileID: 1884577186}
   handManager: {fileID: 1884577191}
   resultText: {fileID: 342428105}
-  selectedCardDisplay: {fileID: 1907192157}
+  selectedCardDisplay: {fileID: 2028058757}
   playerPointsText: {fileID: 93502204}
   aiPointsText: {fileID: 345714437}
-  playerCardDisplay: {fileID: 1907192157}
+  largeCardDisplay: {fileID: 1907192157}
 --- !u!114 &1884577189
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4657,6 +4667,10 @@ MonoBehaviour:
   - {fileID: 1902597641}
   - {fileID: 1161437178}
   - {fileID: 1385003725}
+  cardObjectsInHand:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!1 &1902597640 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5979954690051890599, guid: c712972dad74a4894b7ceb7ee8a6d150,
@@ -5188,7 +5202,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 1057, y: 264.83}
   m_SizeDelta: {x: 100, y: 175}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2028058757

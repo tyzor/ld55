@@ -8,51 +8,73 @@ public class HandManager : MonoBehaviour
     public DeckManager deckManager;
     public GameManager gameManager; // Reference to the GameManager
     public GameObject[] cardHolders; // Array of GameObjects that will hold the cards on the UI
-    public RawImage selectionHighlight; // The RawImage that will be used as a highlight for selected card
-    public RawImage largeCardDisplay; // The large central display for the selected card
     public Button[] cardButtons; // Assign buttons for each card in the Inspector
-
-
+    public GameObject[] cardObjectsInHand = new GameObject[3];
     private int selectedIndex = -1; // Index of the selected card
 
-    private void Start()
+        // Assuming you have a class Card that stores the card's details
+    [SerializeField] private GameObject cardPrefab; // Your card prefab with UI components
+    [SerializeField] private Transform handTransform; // Parent transform to hold the card prefabs in the hand UI
+    [SerializeField] private RawImage largeCardDisplay; // UI component to display the selected card in large view
+    [SerializeField] private RawImage selectionHighlight; // Highlight image that can be enabled/disabled
+
+    private List<Card> cardsInHand = new List<Card>();
+    private List<GameObject> cardGameObjects = new List<GameObject>();
+
+    void Start()
     {
-        // Initialize by hiding the selection highlight
-        selectionHighlight.gameObject.SetActive(false);
+
     }
 
-    // Method called to draw multiple cards to the hand
-    public void DrawCardsToHand(int count)
+public void DrawCardsToHand(int numberOfCards)
+{
+    for (int i = 0; i < numberOfCards; i++)
     {
-        for (int i = 0; i < count; i++)
-        {
-            Card card = gameManager.deckManager.DrawCard(); // Assume DrawCard returns a Card object
-            // Display the card on the UI, using a method that sets the image on the RawImage
-            UpdateCardDisplay(cardHolders[i], card);
+        // Using the correct method from DeckManager to draw a card
+        Card card = deckManager.DrawCard(); // Changed from DrawCardFromDeck
+        cardsInHand.Add(card);
 
-            // Set up the button on-click event
-            int index = i; // Local copy for correct closure capture
-            cardHolders[i].GetComponent<Button>().onClick.AddListener(() => SelectCard(index));
+        // Instantiate the card UI prefab and set up its visuals
+        GameObject cardGO = Instantiate(cardPrefab, handTransform);
+        cardGameObjects.Add(cardGO);
+        
+        // Assume that your card prefab has a method 'SetupCardUI' that takes a Card object
+        if (cardGO.GetComponent<CardUI>() != null)
+        {
+            cardGO.GetComponent<CardUI>().SetupCardUI(card, i, this);
+        }
+        else
+        {
+            Debug.LogError("CardUI component missing on card prefab!");
         }
     }
+}
 
-    // This method will handle the logic when a card is selected from the hand
-    private void SelectCard(int index)
+
+    // Call this method from the card UI prefab when clicked, passing the index of the card
+    public void SelectCard(int index)
     {
-        // Deselect the previously selected card
-        if (selectedIndex != -1)
+        if (index < 0 || index >= cardsInHand.Count)
         {
-            DeselectCard(selectedIndex);
+            Debug.LogError($"SelectCard: No card at index {index}.");
+            return;
         }
 
-        // Select the new card
-        selectedIndex = index;
-        selectionHighlight.gameObject.SetActive(true); // Turn on the highlight
-        selectionHighlight.transform.position = cardHolders[selectedIndex].transform.position; // Move highlight to selected card
+        // Reset all highlights before highlighting the selected card
+        foreach (var cardGO in cardGameObjects)
+        {
+            //cardGO.GetComponent<CardUI>().SetHighlight(false);
+        }
 
-        // Notify GameManager of the selected card
-        gameManager.SelectCardForBattle(gameManager.deckManager.playerDeck[selectedIndex]);
+        Card selectedCard = cardsInHand[index];
+        //cardGameObjects[index].GetComponent<CardUI>().SetHighlight(true);
+
+        // Update the large card display with the selected card
+        UpdateLargeCardDisplay(selectedCard);
     }
+
+
+
 
     // Method called to update the UI card display
     private void UpdateCardDisplay(GameObject cardHolder, Card card)
@@ -115,6 +137,8 @@ public class HandManager : MonoBehaviour
             }
         }
     }
+
+
 
     // Update the display of the large card
     private void UpdateLargeCardDisplay(Card card)

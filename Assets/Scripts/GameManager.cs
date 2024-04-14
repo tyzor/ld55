@@ -12,7 +12,6 @@ public class GameManager : MonoBehaviour
     public RawImage selectedCardDisplay;
     public TextMeshProUGUI playerPointsText; // Points UI for the player
     public TextMeshProUGUI aiPointsText; // Points UI for the AI
-    public RawImage playerCardDisplay; // The display for the player's chosen card for battle
     private Card currentSelectedCard;
     public RawImage largeCardDisplay; // The large central display for the selected card
 
@@ -29,7 +28,7 @@ public class GameManager : MonoBehaviour
     public void SelectCardForBattle(Card selectedCard)
     {
         currentSelectedCard = selectedCard;
-        playerCardDisplay.texture = deckManager.GetCardTexture(selectedCard);
+        largeCardDisplay.texture = deckManager.GetCardTexture(selectedCard);
     }
 
     public void Draw()
@@ -44,7 +43,7 @@ public class GameManager : MonoBehaviour
       public void Battle()
     {
         // Use aiCard for the battle instead of deckManager.lastAICard
-        if (selectedCard == null || aiCard == null)
+        if (currentSelectedCard == null || aiCard == null)
         {
             Debug.LogError("Cannot proceed to battle without both cards being selected.");
             return;
@@ -93,6 +92,12 @@ public class GameManager : MonoBehaviour
 
     private int GetCardValue(Card card)
     {
+        if (card == null)
+        {
+            Debug.LogError("Card is null. Cannot get card value.");
+            return 0;
+        }
+
         Dictionary<string, int> cardValues = new Dictionary<string, int>
         {
             { "2", 2 }, { "3", 3 }, { "4", 4 }, { "5", 5 }, { "6", 6 },
@@ -125,11 +130,23 @@ public class GameManager : MonoBehaviour
         selectedCardDisplay.texture = null; // Set back to default image if you have one
     }
 
-        public void UpdateLargeCardDisplay(Card selectedCard)
+    public void UpdateLargeCardDisplay(Card card)
     {
-        largeCardDisplay.texture = deckManager.GetCardTexture(selectedCard);
-    }
+        if (card == null)
+        {
+            Debug.LogError("Card is null");
+            return;
+        }
 
-    // Implement additional methods as necessary for your game's logic
-    // This may include methods for the "War" mechanic, updating game states, etc.
+        string imagePath = card.GetCardImagePath();
+        Texture2D cardTexture = Resources.Load<Texture2D>($"cards/{imagePath}");
+        if (cardTexture != null)
+        {
+            largeCardDisplay.texture = cardTexture;
+        }
+        else
+        {
+            Debug.LogError("Card image not found: " + imagePath);
+        }
+    }
 }
