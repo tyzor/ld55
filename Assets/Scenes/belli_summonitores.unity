@@ -392,6 +392,7 @@ CanvasRenderer:
   m_GameObject: {fileID: 42484980}
   m_CullTransparentMesh: 1
 <<<<<<< HEAD
+<<<<<<< HEAD
 --- !u!1001 &73503735
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -532,6 +533,8 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 73503735}
   m_PrefabAsset: {fileID: 0}
+=======
+>>>>>>> parent of 2c5962b (war)
 =======
 >>>>>>> parent of 2c5962b (war)
 --- !u!1 &92474031
@@ -860,6 +863,7 @@ CanvasRenderer:
   m_GameObject: {fileID: 275966996}
   m_CullTransparentMesh: 1
 <<<<<<< HEAD
+<<<<<<< HEAD
 --- !u!1001 &298946890
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -989,6 +993,8 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 298946890}
   m_PrefabAsset: {fileID: 0}
+=======
+>>>>>>> parent of 2c5962b (war)
 =======
 >>>>>>> parent of 2c5962b (war)
 --- !u!1 &342428103
@@ -1334,7 +1340,10 @@ CanvasRenderer:
   m_GameObject: {fileID: 348126799}
   m_CullTransparentMesh: 1
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> parent of 2c5962b (war)
 --- !u!1 &367500768
 GameObject:
   m_ObjectHideFlags: 0
@@ -1407,6 +1416,9 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 367500768}
   m_CullTransparentMesh: 1
+<<<<<<< HEAD
+>>>>>>> parent of 2c5962b (war)
+=======
 >>>>>>> parent of 2c5962b (war)
 --- !u!1 &471132330
 GameObject:
@@ -2149,6 +2161,7 @@ CanvasRenderer:
   m_GameObject: {fileID: 617993407}
   m_CullTransparentMesh: 1
 <<<<<<< HEAD
+<<<<<<< HEAD
 --- !u!1001 &624438796
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2278,6 +2291,8 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 624438796}
   m_PrefabAsset: {fileID: 0}
+=======
+>>>>>>> parent of 2c5962b (war)
 =======
 >>>>>>> parent of 2c5962b (war)
 --- !u!1 &657361660
@@ -3529,6 +3544,7 @@ CanvasRenderer:
   m_GameObject: {fileID: 1102008927}
   m_CullTransparentMesh: 1
 <<<<<<< HEAD
+<<<<<<< HEAD
 --- !u!1 &1161437177 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5979954690051890599, guid: c712972dad74a4894b7ceb7ee8a6d150,
@@ -3547,6 +3563,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+=======
+>>>>>>> parent of 2c5962b (war)
 =======
 >>>>>>> parent of 2c5962b (war)
 --- !u!1 &1224940111
@@ -4083,6 +4101,9 @@ MonoBehaviour:
     y: 0
     width: 1
     height: 1
+<<<<<<< HEAD
+>>>>>>> parent of 2c5962b (war)
+=======
 >>>>>>> parent of 2c5962b (war)
 --- !u!1 &1825385403
 GameObject:
@@ -4750,8 +4771,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   deckManager: {fileID: 1884577186}
 <<<<<<< HEAD
+<<<<<<< HEAD
   handManager: {fileID: 1884577191}
 =======
+=======
+>>>>>>> parent of 2c5962b (war)
   playerCardDisplay: {fileID: 367500770}
   aiCardDisplay: {fileID: 348126801}
 >>>>>>> parent of 2c5962b (war)
@@ -4760,8 +4784,11 @@ MonoBehaviour:
   playerPointsText: {fileID: 93502204}
   aiPointsText: {fileID: 345714437}
 <<<<<<< HEAD
+<<<<<<< HEAD
   largeCardDisplay: {fileID: 1907192157}
 =======
+=======
+>>>>>>> parent of 2c5962b (war)
   cardBackSprite: {fileID: 1356811159}
   cardBackTexture: {fileID: 2800000, guid: 1b95697a38eb4dd49a6a67b6b8560af9, type: 3}
 >>>>>>> parent of 2c5962b (war)
@@ -4825,6 +4852,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   deckManager: {fileID: 1884577186}
+<<<<<<< HEAD
 <<<<<<< HEAD
   gameManager: {fileID: 1884577188}
   cardHolders:
@@ -4931,6 +4959,9 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1907192155}
   m_CullTransparentMesh: 1
+=======
+  handLayout: {fileID: 1224940113}
+>>>>>>> parent of 2c5962b (war)
 =======
   handLayout: {fileID: 1224940113}
 >>>>>>> parent of 2c5962b (war)

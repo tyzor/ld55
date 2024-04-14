@@ -7,11 +7,17 @@ public class HandManager : MonoBehaviour
 {
     public DeckManager deckManager;
 <<<<<<< HEAD
+<<<<<<< HEAD
     public GameManager gameManager; // Reference to the GameManager
     public GameObject[] cardHolders; // Array of GameObjects that will hold the cards on the UI
     public Button[] cardButtons; // Assign buttons for each card in the Inspector
     public GameObject[] cardObjectsInHand = new GameObject[3];
     private int selectedIndex = -1; // Index of the selected card
+=======
+    public GameObject handContainer; // Parent GameObject for cards
+    public List<Card> playerHand = new List<Card>();
+    public Card selectedCard; // The card selected for battle
+>>>>>>> parent of 2c5962b (war)
 =======
     public GameObject handContainer; // Parent GameObject for cards
     public List<Card> playerHand = new List<Card>();
@@ -29,6 +35,7 @@ public class HandManager : MonoBehaviour
 
     void Start()
     {
+<<<<<<< HEAD
 <<<<<<< HEAD
 
     }
@@ -222,6 +229,47 @@ public void DrawCardsToHand(int numberOfCards)
 
     private void SelectCard(Card card)
     {
+=======
+        for (int i = 0; i < count; i++)
+        {
+            if (deckManager.playerDeck.Count > 0)
+            {
+                Card drawnCard = deckManager.DrawCard();
+                playerHand.Add(drawnCard);
+                AddCardToHandUI(drawnCard);
+            }
+        }
+    }
+
+    private Sprite GetCardSprite(Card card)
+    {
+        // Load the sprite for the card
+        string path = "Cards/" + card.rank.ToLower() + "_of_" + card.suit.ToLower();
+        return Resources.Load<Sprite>(path);
+    }
+
+
+    private void AddCardToHandUI(Card card)
+    {
+        // Assuming you have a method to instantiate card GameObjects properly
+        GameObject cardGO = InstantiateCardGameObject(card);
+        cardGO.transform.SetParent(handContainer.transform, false);
+        // Add click listener for selection
+        cardGO.GetComponent<Button>().onClick.AddListener(() => SelectCard(card));
+    }
+
+    private GameObject InstantiateCardGameObject(Card card)
+    {
+        GameObject cardGO = new GameObject("Card");
+        var image = cardGO.AddComponent<Image>();
+        var button = cardGO.AddComponent<Button>();
+        image.sprite = GetCardSprite(card); // Your method to get the sprite
+        return cardGO;
+    }
+
+    private void SelectCard(Card card)
+    {
+>>>>>>> parent of 2c5962b (war)
         selectedCard = card;
         // Highlight the selected card visually
         HighlightCard(card);
@@ -230,6 +278,9 @@ public void DrawCardsToHand(int numberOfCards)
     private void HighlightCard(Card card)
     {
         // Implementation to visually distinguish the selected card
+<<<<<<< HEAD
+>>>>>>> parent of 2c5962b (war)
+=======
 >>>>>>> parent of 2c5962b (war)
     }
 }

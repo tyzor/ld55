@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
 {
     public DeckManager deckManager;
 <<<<<<< HEAD
+<<<<<<< HEAD
     public HandManager handManager;
     public TextMeshProUGUI resultText;
     public RawImage selectedCardDisplay;
@@ -19,11 +20,19 @@ public class GameManager : MonoBehaviour
     public RawImage playerCardDisplay;
     public RawImage aiCardDisplay;
     public TextMeshProUGUI resultText;
+=======
+    public RawImage playerCardDisplay;
+    public RawImage aiCardDisplay;
+    public TextMeshProUGUI resultText;
+>>>>>>> parent of 2c5962b (war)
     public TextMeshProUGUI playerPointsText;
     public TextMeshProUGUI aiPointsText;
     public RawImage cardBackSprite; // This should be a RawImage with the card back texture already assigned
     public List<Card> playerHand = new List<Card>(); // The player's hand
     public Card selectedCard; // The selected card for battle
+<<<<<<< HEAD
+>>>>>>> parent of 2c5962b (war)
+=======
 >>>>>>> parent of 2c5962b (war)
 
     private Card selectedCard;
@@ -44,11 +53,15 @@ public class GameManager : MonoBehaviour
 =======
         // Set the AI card back image once
         aiCardDisplay.texture = cardBackSprite.texture;
+<<<<<<< HEAD
+>>>>>>> parent of 2c5962b (war)
+=======
 >>>>>>> parent of 2c5962b (war)
     }
 
     public void Draw()
     {
+<<<<<<< HEAD
 <<<<<<< HEAD
         // Draw AI card and set it for the battle
         deckManager.DrawAICard();
@@ -107,6 +120,32 @@ public class GameManager : MonoBehaviour
         playerHand.Remove(selectedCard);
     }
 
+=======
+        // Draw 3 cards to the player's hand
+        for (int i = 0; i < 3; i++)
+        {
+            if (deckManager.playerDeck.Count > 0)
+            {
+                Card card = deckManager.DrawCard();
+                playerHand.Add(card);
+                // Assuming you have a method to update a visual list or hand display
+                UpdateCardDisplayInHand(card); // Implement this to visually add card to UI hand
+            }
+        }
+        // Draw AI card and update lastAICard but don't show it
+        deckManager.DrawAICard();
+    }
+
+    // This method should be called when a player selects a card from the hand
+    public void SelectCardForBattle(Card card)
+    {
+        selectedCard = card;
+        playerCardDisplay.texture = deckManager.GetCardTexture(selectedCard);
+        // Optionally remove the card from hand and update UI
+        playerHand.Remove(selectedCard);
+    }
+
+>>>>>>> parent of 2c5962b (war)
     private void UpdateCardDisplayInHand(Card card)
     {
         // Assuming you have some form of UI representation for cards in hand
@@ -128,12 +167,16 @@ public class GameManager : MonoBehaviour
 
         if (playerWon) playerPoints++;
         else aiPoints++;
+<<<<<<< HEAD
+>>>>>>> parent of 2c5962b (war)
+=======
 >>>>>>> parent of 2c5962b (war)
 
         // Update the points display
         playerPointsText.text = $"Player Points: {playerPoints}";
         aiPointsText.text = $"AI Points: {aiPoints}";
 
+<<<<<<< HEAD
 <<<<<<< HEAD
         // Collect cards, handle the end of the battle, etc.
     }
@@ -169,6 +212,23 @@ public class GameManager : MonoBehaviour
 
     private bool DetermineWinner(Card playerCard, Card aiCard)
     {
+=======
+        CollectCards(selectedCard, deckManager.lastAICard, playerWon);
+        UpdateRoundCount();
+        // Reset selectedCard for next round
+        selectedCard = null;
+    }
+
+    private void RevealAICard()
+    {
+        // Reveal the AI card only during battle
+        aiCardDisplay.texture = deckManager.GetCardTexture(deckManager.lastAICard);
+    }
+
+
+    private bool DetermineWinner(Card playerCard, Card aiCard)
+    {
+>>>>>>> parent of 2c5962b (war)
         int playerCardValue = deckManager.GetCardValue(playerCard);
         int aiCardValue = deckManager.GetCardValue(aiCard);
         resultText.text = playerCardValue > aiCardValue ? "Player wins!" : "AI wins!";
@@ -194,6 +254,9 @@ public class GameManager : MonoBehaviour
     {
         // Placeholder for the WAR mechanic implementation
         Debug.Log("Entering WAR!");
+<<<<<<< HEAD
+>>>>>>> parent of 2c5962b (war)
+=======
 >>>>>>> parent of 2c5962b (war)
     }
 
@@ -223,6 +286,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
+<<<<<<< HEAD
 
     private void RevealAICard()
     {
@@ -257,4 +321,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
+=======
+>>>>>>> parent of 2c5962b (war)
 }
