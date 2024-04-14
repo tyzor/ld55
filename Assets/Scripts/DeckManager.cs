@@ -12,6 +12,8 @@ public class DeckManager : MonoBehaviour
     public RawImage cardDisplay;
     public Card lastAICard;
     public Card lastPlayerCard;
+    public RawImage cardBackRawImage;
+    public List<Texture2D> cardBackTextures;
 
 
     void Start()
@@ -56,6 +58,7 @@ public class DeckManager : MonoBehaviour
             Card drawnCard = playerDeck[0];
             playerDeck.RemoveAt(0);
             lastPlayerCard = drawnCard;
+            Debug.Log("Drawn Card: " + drawnCard.rank + " of " + drawnCard.suit);
             return drawnCard;
         }
         return null; // Handle this case in your GameManager
@@ -68,9 +71,22 @@ public class DeckManager : MonoBehaviour
             Card drawnCard = aiDeck[0];
             aiDeck.RemoveAt(0);
             lastAICard = drawnCard;
+            cardBackRawImage.texture = GetBackTexture(drawnCard);
             return drawnCard;
         }
         return null; // Handle this case in your GameManager
+    }
+
+    public Texture2D GetBackTexture(Card card)
+    {
+        if (card == null || cardBackTextures == null || cardBackTextures.Count == 0)
+            return null;
+
+        int index = GetCardIndex(card);
+        if (index < 0 || index >= cardBackTextures.Count)
+            return null;
+
+        return cardBackTextures[index];
     }
 
     public Texture2D GetCardTexture(Card card)
@@ -104,6 +120,26 @@ public class DeckManager : MonoBehaviour
         }
     }
 
+    private int GetCardIndex(Card card)
+    {
+        // Assuming ranks are numbered from 0
+        int rankIndex;
+        if (int.TryParse(card.rank, out rankIndex)) // For numbered cards
+        {
+            return rankIndex - 2; // for "2" as the first card rank with an index of 0
+        }
+        else // For face cards
+        {
+            switch (card.rank)
+            {
+                case "Jack": return 9;
+                case "Queen": return 10;
+                case "King": return 11;
+                case "Ace": return 12;
+                default: return -1; // Unknown rank
+            }
+        }
+    }
 
     public void UpdateCardDisplay(Card card)
     {

@@ -10,9 +10,5 @@ namespace CardHolder // Note the correct namespace here
             this.rank = rank;
             this.suit = suit;
         }
-        public string GetCardImagePath()
-        {
-            return $"{rank.ToLower()}_{suit.ToLower()}";
-        }
     }
 }
