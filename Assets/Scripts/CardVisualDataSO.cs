@@ -15,11 +15,6 @@ public class CardVisualDataSO : ScriptableObject
 {
     public List<CardVisualData> cardTextures;
 
-    void Awake()
-    {
-        cardTextures = new List<CardVisualData>();
-    }
-
     public CardVisualData GetData(CARDSUIT suit)
     {
         foreach(CardVisualData data in cardTextures)

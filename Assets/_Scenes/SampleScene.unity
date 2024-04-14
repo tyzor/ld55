@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.17660902, g: 0.22105885, b: 0.30336595, a: 1}
+  m_IndirectSpecularColor: {r: 0.1766085, g: 0.22105813, b: 0.30336472, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -607,8 +607,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 249f2651337399945bd7ca8e762c2cd2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerDeck: {fileID: 928140169}
-  enemyDeck: {fileID: 1861414411}
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0
@@ -1642,18 +1640,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0b62a7a24e7e01f44b5e305923ccd9b4, type: 3}
---- !u!114 &928140169 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6622383949185673015, guid: fe753fe09c898df4ca2c1aa6099ca3fb,
-    type: 3}
-  m_PrefabInstance: {fileID: 2026629333267926265}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c2ee9672a88e1a34ca0828c3081a4d72, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &953131588
 GameObject:
   m_ObjectHideFlags: 0
@@ -2495,18 +2481,6 @@ Transform:
   - {fileID: 410087041}
   m_Father: {fileID: 1154543316}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1861414411 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7631773951861673459, guid: e382f4f7224231b46a85c809351634fb,
-    type: 3}
-  m_PrefabInstance: {fileID: 9147336685684681409}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c2ee9672a88e1a34ca0828c3081a4d72, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!224 &1895376873 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8199213199074970605, guid: 0b62a7a24e7e01f44b5e305923ccd9b4,
@@ -2539,6 +2513,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5589665030302740403, guid: fe753fe09c898df4ca2c1aa6099ca3fb,
+        type: 3}
+      propertyPath: handPositions.Array.data[0]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5589665030302740403, guid: fe753fe09c898df4ca2c1aa6099ca3fb,
+        type: 3}
+      propertyPath: handPositions.Array.data[1]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5589665030302740403, guid: fe753fe09c898df4ca2c1aa6099ca3fb,
+        type: 3}
+      propertyPath: handPositions.Array.data[2]
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 5816452164775214454, guid: fe753fe09c898df4ca2c1aa6099ca3fb,
         type: 3}
       propertyPath: m_Name

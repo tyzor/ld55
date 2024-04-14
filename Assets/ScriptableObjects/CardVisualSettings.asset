@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4a7ef6d8e7e6b438e9e20d557baab892, type: 3}
-  m_Name: CardSettings
+  m_Name: CardVisualSettings
   m_EditorClassIdentifier: 
   cardTextures:
   - suit: 1
