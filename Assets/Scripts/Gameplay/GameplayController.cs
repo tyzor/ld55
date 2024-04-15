@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Audio;
+using Audio.SoundFX;
 using GameInput;
 using UI;
 using Unity.VisualScripting;
@@ -62,6 +64,9 @@ namespace Gameplay
             playerController.Init();
             enemyController.Init();
 
+            SFX.SHUFFLE.PlaySound();
+            yield return new WaitForSeconds(0.8f);
+
             // Start Round
             yield return StartCoroutine(DoRound());
 
@@ -114,6 +119,7 @@ namespace Gameplay
             yield return playerController.PlayCard(playerController.playedCard);
 
             // Flip both cards and determine winner
+            yield return enemyController.FlipPlayedCard();
             yield return StartCoroutine(BattleCards());
 
             yield return new WaitForSeconds(0.3f);

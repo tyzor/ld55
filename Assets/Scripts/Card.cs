@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using Audio;
+using Audio.SoundFX;
 using GameInput;
 using TMPro;
 using UnityEngine;
@@ -131,6 +133,8 @@ public class Card : MonoBehaviour
     public void TakeDamage(int damage)
     {
         cardData.value = Mathf.Max(0,cardData.value-damage);
+        //if(cardData.value <= 0)
+        //    SFX.CARD_DESTROY.PlaySoundDelayedRandom(0,0.01f);
         RenderCard();
     }
 

@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Audio;
+using Audio.SoundFX;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -43,6 +45,7 @@ public class Deck : MonoBehaviour
             card.transform.position = GetTopCardPosition();
             card.cardData = cardData;
             draws.Add(card);
+            SFX.CARD_FLIP.PlaySoundDelayedRandom(0,0.05f);
         }
 
         return draws;

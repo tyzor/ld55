@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Audio;
+using Audio.SoundFX;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -59,6 +61,7 @@ namespace UI
             displayButton.onClick.RemoveAllListeners();
             displayButton.onClick.AddListener(() =>
             {
+                SFX.SELECTION.PlaySound();
                 onButtonPressed?.Invoke();
                 optionUI.SetActive(false);
             });

@@ -109,6 +109,16 @@ namespace Audio
 
             StartCoroutine(WaitForSoundFinishCoroutine(audioSource, audioClip.length));
         }
+
+        internal void PlaySoundDelayed(SFX sfx, float delay = 0f)
+        {
+            StartCoroutine(SoundDelayCoroutine(sfx,delay));
+        }
+        internal IEnumerator SoundDelayCoroutine(SFX sfx, float delay)
+        {
+            yield return new WaitForSeconds(delay);
+            PlaySoundAtLocation(sfx);
+        }
         
         //============================================================================================================//
 

@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Audio;
+using Audio.SoundFX;
 using GameInput;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -140,6 +142,7 @@ public class PlayerController : MonoBehaviour
             if(!raycastHit.transform.TryGetComponent<Card>(out Card card)) return;
         
             playedCard = card;
+            SFX.SELECTION.PlaySound();
 
         }
     }
@@ -177,6 +180,8 @@ public class PlayerController : MonoBehaviour
         yield return AnimationUtils.Lerp(cardPlayAnimationTime, t => {
             card.transform.position = Vector3.Lerp(startPosition, playedCardPosition.position, t);
         });
+
+        SFX.CARD_PLACE.PlaySound();
 
         // Put cards back in deck and clear hand
         _hand.cards.Remove(card);
@@ -222,6 +227,7 @@ public class PlayerController : MonoBehaviour
         var c2Value = targetCard.cardData.value;
         playedCard.TakeDamage(c2Value);
         targetCard.TakeDamage(c1Value);
+        SFX.CARD_ATTACK.PlaySound();
 
         // Apply energy
         GainEnergy(playedCard.IsAlive ? playedCard.cardData.value : 1, playedCard.IsAlive);
@@ -230,6 +236,7 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(.2f);
         
         // Send cards back to deck
+        SFX.CARD_RETURN.PlaySound();
         yield return AnimationUtils.Lerp(cardPlayAnimationTime, t => {
             if(playedCard.IsAlive)
                 playedCard.transform.position = Vector3.Lerp(card1Start, deck.transform.position, t);
@@ -254,6 +261,7 @@ public class PlayerController : MonoBehaviour
         int multiplier = isWin ? _energyMultiplierWin : _energyMultiplierLose;
         _energy = Mathf.Clamp(_energy + value * multiplier, 0, _summonCost);
         EnergyChangedAction?.Invoke(_energy, _summonCost);
+        SFX.ENERGY_GAIN.PlaySoundDelayedRandom(0,0.05f);
     }
 
     public Coroutine TrySummon(PlayerController otherPlayer) => StartCoroutine(SummonCoroutine(otherPlayer));
@@ -316,7 +324,7 @@ public class PlayerController : MonoBehaviour
                 //TODO -- shuffle enemy deck?
                 break;
             case SUMMON_TYPE.OX:
-            
+
                 CARDSUIT suitChoice;
                 if(isPlayer)
                 {
