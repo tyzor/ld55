@@ -1464,13 +1464,16 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: "How to play:\r\n\r\nEach turn, select a card to play against your opponent.
-    High card wins, low card is \"destroyed,\" in the event of a tie, both cards
-    are \"destroyed.\" Winning card value is reduced by the losing card value and
-    returned to the player's hand. \r\n\r\nEach turn you will receive summoning energy
-    based on the difference between the winning and losing card values in play, loser
-    gets 1 energy.\r\n\r\nAfter summoning energy reaches 10, you may summon a Zodiac
-    Legend. Summoning can make big changes to the gameplay! \r\n\r\nReduce your opponent's
-    deck count to zero before yours reaches zero, to win the game.\r\n\r\nHave fun!"
+    High card wins, low card is <color=#ffff00><size=110%><b>destroyed</b></size></color>,
+    in the event of a tie, both cards are <color=#ffff00><size=110%><b>destroyed</b></size></color>.
+    Winning card value is reduced by the losing card value and returned to bottom
+    of the player's deck.\n\r\nEach turn you will receive summoning energy based
+    on the difference between the winning and losing card values in play, loser gets
+    1 <color=#ffff00><size=110%><b>energy</b></size></color>.\r\n\r\nAfter summoning
+    <color=#ffff00><size=110%><b>energy</b></size></color> reaches 10, you may summon
+    a Zodiac Legend. Summoning can make big changes to the gameplay! \r\n\r\nReduce
+    your opponent's deck count to zero before yours reaches zero, to win the game.\r\n\r\nHave
+    fun!"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8ec5d41f1a86d0647ac8c74f5daa87e9, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 3136370d2c6c13b42bcd69695b7a2425, type: 2}
@@ -1497,7 +1500,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 25.8
+  m_fontSize: 25.05
   m_fontSizeBase: 20
   m_fontWeight: 400
   m_enableAutoSizing: 1
