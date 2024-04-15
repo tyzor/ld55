@@ -48,11 +48,11 @@ MonoBehaviour:
   - type: 1
     image: {fileID: 21300000, guid: 200ad908c7a66a445802aa3dc8011b52, type: 3}
     name: dog
-    description: Reduce the next summon cost by <color="red">half</color>
+    description: Reduce the next summon cost by <color=#aa0000>half</color>
   - type: 2
     image: {fileID: 21300000, guid: 41a4ff21b0b3ba745912519158a191e4, type: 3}
     name: dragon
-    description: Add <color="green">5</color> random cards of selected element
+    description: Add <color=#00aa00>5</color> random cards of selected element
   - type: 3
     image: {fileID: 21300000, guid: d00728bb940a9994fad7a4fbdb389145, type: 3}
     name: horse
@@ -64,33 +64,33 @@ MonoBehaviour:
   - type: 5
     image: {fileID: 21300000, guid: 5bbf0debc89be25428e43a8e4b48aae7, type: 3}
     name: ox
-    description: <color="green">+1</color> to selected element
+    description: <color=#00aa00>+1</color> to selected element
   - type: 6
     image: {fileID: 21300000, guid: 78169fcce1e27674fa9817fdceb7ff3f, type: 3}
     name: pig
-    description: Top card <color="green">+8</color>
+    description: Top card <color=#00aa00>+8</color>
   - type: 7
     image: {fileID: 21300000, guid: 7c8cee7fd04fd184fb21acabf50fa3ec, type: 3}
     name: rabbit
-    description: Give <color="green">3</color> cards in your deck <color="green">+1</color>
+    description: Give <color=#00aa00>2</color> cards in your deck <color="green">+2</color>
   - type: 8
     image: {fileID: 21300000, guid: 0c7288896285ea6439d8d6f735eecd4e, type: 3}
     name: rat
-    description: Destroy half of both players decks
+    description: <color=#aa0000>Destroy</color> half of both players decks
   - type: 9
     image: {fileID: 21300000, guid: 991eb3f3686b0d943b7a525a72276539, type: 3}
     name: rooster
-    description: Increase your energy on wins by <color="green">100%</color>
+    description: Increase your energy on wins by <color=#00aa00>100%</color>
   - type: 10
     image: {fileID: 21300000, guid: e82bb1366f328b44fa534da116393f6f, type: 3}
     name: sheep
-    description: Give <color="green">4</color> random cards in your deck <color="green">+1</color>
+    description: Give <color=#00aa00>4</color> random cards in your deck <color="green">+1</color>
   - type: 11
     image: {fileID: 21300000, guid: 7e43f4053a76b5d448e38da3da1a6b52, type: 3}
     name: snake
-    description: Increase you energy on losses by <color="green">100%</color>
+    description: Increase you energy on losses by <color=#00aa00>100%</color>
   - type: 12
     image: {fileID: 21300000, guid: ea85248c102d6794e8444474e5491ba5, type: 3}
     name: tiger
-    description: Change <color="green">5</color> cards in your deck into a random
+    description: Change <color=#00aa00>5</color> cards in your deck into a random
       element

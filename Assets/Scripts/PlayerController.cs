@@ -357,7 +357,7 @@ public class PlayerController : MonoBehaviour
                 deck.RaiseTopCard(8);
                 break;
             case SUMMON_TYPE.RABBIT:
-                deck.RaisePower(3,1);
+                deck.RaisePower(2,2);
                 break;
             case SUMMON_TYPE.RAT:
                 deck.SplitDeck();
