@@ -331,7 +331,7 @@ public class PlayerController : MonoBehaviour
                 cardDrawStrength = Mathf.Clamp(cardDrawStrength + 1,0,5);
                 break;
             case SUMMON_TYPE.MONKEY:
-                deck.RandomizeValues();
+                deck.RandomizeValues(1,5);
                 //TODO -- shuffle enemy deck?
                 break;
             case SUMMON_TYPE.OX:

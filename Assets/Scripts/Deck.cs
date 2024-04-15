@@ -107,7 +107,7 @@ public class Deck : MonoBehaviour
     }
 
     // Monkey power effect
-    public void RandomizeValues(int min=1,int max=10)
+    public void RandomizeValues(int min=1,int max=5)
     {
         foreach(CardData d in decklist)
         {
