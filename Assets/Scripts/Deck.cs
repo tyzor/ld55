@@ -21,10 +21,15 @@ public class Deck : MonoBehaviour
         Debug.Log($"{name} deck is initializing ");
         decklist = new List<CardData>();    
         
-        for(int i=0;i<10;i++)
+        for(int s=1;s<=5;s++)
         {
-            decklist.Add(CardData.RandomCard());
+            for(int i=1;i<=5;i++)    
+            {
+                decklist.Add(new CardData(i,(CARDSUIT)s));
+            }
         }
+        decklist.Shuffle();
+
 
         DeckChangedAction?.Invoke(decklist);
     }

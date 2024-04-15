@@ -31,7 +31,7 @@ public class CardData
 
     public static CardData RandomCard()
     {
-        return new CardData(Random.Range(1,11), (CARDSUIT)Random.Range(1,5));
+        return new CardData(Random.Range(1,5), (CARDSUIT)Random.Range(1,5));
     }       
 
 }

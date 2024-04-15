@@ -79,10 +79,6 @@ namespace Gameplay
             // Start Round
             GameInputDelegator.LockInputs = true;
 
-            // Check for summon condition
-            yield return enemyController.TrySummon(playerController);
-            yield return playerController.TrySummon(enemyController);
-
             // Check for win condition
             if(!enemyController.CanDraw())
             {
@@ -97,6 +93,11 @@ namespace Gameplay
                 yield break;
             }
 
+            // Check for summon condition
+            yield return enemyController.TrySummon(playerController);
+            yield return playerController.TrySummon(enemyController);
+
+            
             // Draw and flip enemy card
             yield return enemyController.PlayTopCard();
 
