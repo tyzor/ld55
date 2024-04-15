@@ -137,8 +137,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 0/10
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2100000, guid: e73a58f6e2794ae7b1b7e50b7fb811b0, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8ec5d41f1a86d0647ac8c74f5daa87e9, type: 2}
+  m_sharedMaterial: {fileID: 2100000, guid: 3136370d2c6c13b42bcd69695b7a2425, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -362,6 +362,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   cardDrawStrength: 1
+  summonUI: {fileID: 0}
 --- !u!1 &6014400870427449166
 GameObject:
   m_ObjectHideFlags: 0
@@ -549,8 +550,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 10
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2100000, guid: e73a58f6e2794ae7b1b7e50b7fb811b0, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8ec5d41f1a86d0647ac8c74f5daa87e9, type: 2}
+  m_sharedMaterial: {fileID: 2100000, guid: 3136370d2c6c13b42bcd69695b7a2425, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

@@ -47,6 +47,8 @@ public class Card : MonoBehaviour
 
     public int handPosition = -1;
 
+    public bool IsAlive => _cardData.value > 0;
+
     [SerializeField]
     TextMeshProUGUI cardValueText;
 
@@ -74,7 +76,8 @@ public class Card : MonoBehaviour
     private void RenderCard()
     {
         var visData = cardVisDataSO.GetData(cardData.suit);
-        _frontMaterial.SetTexture("_Texture", visData.frontTexture);
+        if(_frontMaterial != visData.frontTexture)
+            _frontMaterial.SetTexture("_Texture", visData.frontTexture);
         if(cardValueText)
         {
             cardValueText.text = cardData.value.ToString(); 
@@ -103,14 +106,14 @@ public class Card : MonoBehaviour
 
     void OnMouseOver()
     {
-        Debug.Log("MouseOver collider event");
+        //Debug.Log("MouseOver collider event");
         if(_hasHover) return;
         _hasHover = true;
         TriggerHover(true);   
     }
     void OnMouseExit()
     {
-        Debug.Log("MouseExit collider event");
+        //Debug.Log("MouseExit collider event");
         if(!_hasHover) return;
         _hasHover = false;
         TriggerHover(false);
@@ -125,5 +128,10 @@ public class Card : MonoBehaviour
         }
     }
 
+    public void TakeDamage(int damage)
+    {
+        cardData.value = Mathf.Max(0,cardData.value-damage);
+        RenderCard();
+    }
 
 }

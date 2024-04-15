@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 public class Deck : MonoBehaviour
 {
@@ -22,6 +23,8 @@ public class Deck : MonoBehaviour
         {
             decklist.Add(CardData.RandomCard());
         }
+
+        DeckChangedAction?.Invoke(decklist);
     }
 
     public List<Card> DrawCards(int num) {
@@ -84,6 +87,82 @@ public class Deck : MonoBehaviour
 
     private void DeckChanged()
     {
+        DeckChangedAction?.Invoke(decklist);
+    }
+
+    // Monkey power effect
+    public void RandomizeValues(int min=1,int max=10)
+    {
+        foreach(CardData d in decklist)
+        {
+            d.value = UnityEngine.Random.Range(min,max+1);
+        }
+    }
+
+    // Tiger effect
+    public void TransmuteCards(int numCards)
+    {
+        CardData[] cards = GetRandomCards(numCards);
+        foreach(CardData card in cards)
+        {
+            card.suit = (CARDSUIT)UnityEngine.Random.Range(1,6);
+        }
+    }
+
+    // Rabbit power -- raise all cards below a rank
+    public void RaisePower(int minRank, int increase = 1)
+    {
+        foreach(CardData d in decklist)
+        {
+            if(d.value <= minRank) d.value = d.value + increase;
+        }
+    }
+
+    // Pig power -- raise top card
+    public void RaiseTopCard(int amount)
+    {
+        decklist[0].value += amount;
+    }
+
+    // Sheep power -- raise random cards by +3
+    public void RaiseRandom(int numCards, int amount)
+    {
+        CardData[] cards = GetRandomCards(numCards);
+        foreach(CardData d in cards)
+        {
+            d.value += amount;
+        }
+    }
+
+    public CardData[] GetRandomCards(int numCards)
+    {
+        
+        int cardCount = Mathf.Min(numCards,decklist.Count);
+        List<int> selection = new List<int>();
+        List<CardData> result = new List<CardData>();
+
+        //TODO -- rewrite this to be more efficient
+        // probably easier to make an index array, shuffle it and then pull the top n
+        for(int i=0;i<cardCount;i++)
+        {
+            int index;
+            do{
+                index = UnityEngine.Random.Range(0,decklist.Count);
+            } while(selection.Contains(index));
+            selection.Add(index);
+            result.Add(decklist[index]);
+        }
+        return result.ToArray();
+    }
+
+    // Rat power -- split deck in half round down
+    public void SplitDeck()
+    {
+        int amount = Mathf.FloorToInt(decklist.Count/2f);
+        for(int i=0;i<amount;i++)
+        {
+            decklist.RemoveAt(0);
+        }
         DeckChangedAction?.Invoke(decklist);
     }
 

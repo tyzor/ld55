@@ -19,12 +19,12 @@ public class PlayerUI : MonoBehaviour
     void OnEnable()
     {
         deck.DeckChangedAction += OnDeckCountChanged;
-        player.EnergyGainedAction += OnEnergyChanged;
+        player.EnergyChangedAction += OnEnergyChanged;
     }
     void OnDisable()
     {
         deck.DeckChangedAction -= OnDeckCountChanged;
-        player.EnergyGainedAction -= OnEnergyChanged;
+        player.EnergyChangedAction -= OnEnergyChanged;
     }
 
 
@@ -33,8 +33,8 @@ public class PlayerUI : MonoBehaviour
         deckCountLabel.text = $"{deckList.Count}";
     }
 
-    private void OnEnergyChanged(int count)
+    private void OnEnergyChanged(int count, int cost)
     {
-        energyCountLabel.text = $"{Mathf.Max(count,10)/10}";
+        energyCountLabel.text = $"{Mathf.Min(count,cost)}/{cost}";
     }
 }

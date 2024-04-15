@@ -71,6 +71,10 @@ namespace Gameplay
             // Start Round
             GameInputDelegator.LockInputs = true;
 
+            // Check for summon condition
+            yield return enemyController.TrySummon(playerController);
+            yield return playerController.TrySummon(enemyController);
+
             // Check for win condition
             if(!enemyController.CanDraw())
             {
@@ -126,23 +130,7 @@ namespace Gameplay
         // Compare played cards and return winner
         private IEnumerator BattleCards() {
             
-            int playerValue = playerController.playedCard.cardData.value;
-            int enemyValue = enemyController.playedCard.cardData.value;
-
-            if(playerValue == enemyValue)
-            {
-                // We have a tie here -- do special tie rules
-                yield return playerController.BattleTied();
-                yield return enemyController.BattleTied();
-                yield break;   
-            }
-
-            // TODO -- add power custom logic here
-            if(playerValue > enemyValue)
-                yield return playerController.BattleCards(enemyController);
-            else
-                yield return enemyController.BattleCards(playerController);
-    
+            yield return playerController.BattleCards(enemyController);    
         }
 
         private IEnumerator WinCoroutine()

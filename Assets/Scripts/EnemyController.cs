@@ -32,5 +32,20 @@ public class EnemyController : PlayerController
 
         Debug.Log("playtopcardcoroutine finished");
     }
+    
+    protected override IEnumerator SummonCoroutine(PlayerController otherPlayer)
+    {
+        if(!CanSummon()) yield break;
+
+        
+        SummonData summon = summonUI.MakeAIChoice();
+        
+        // TODO -- animation showing what was picked
+        Debug.Log($"Enemy Summoned {summon.name}");
+
+        yield return StartCoroutine(ApplySummonEffect(summon.type, otherPlayer));
+
+    }
+
 
 }

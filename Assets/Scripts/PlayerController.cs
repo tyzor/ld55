@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using GameInput;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -12,6 +13,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private Hand _hand;
     
+    private int _energy;
+    private int _summonCost;
+    private int _energyMultiplierWin = 1;
+    private int _energyMultiplierLose = 1;
+
     [SerializeField]
     protected Transform playedCardPosition;
 
@@ -40,8 +46,15 @@ public class PlayerController : MonoBehaviour
 
     public int cardDrawStrength = 1;
 
-    public event Action<int> EnergyGainedAction; 
+    public event Action<int, int> EnergyChangedAction; 
 
+    public bool CanDraw() => deck.CanDraw(cardDrawStrength);
+    public bool CanSummon() => _energy >= _summonCost;
+
+    [SerializeField]
+    protected SummonUI summonUI;
+
+    private List<SUMMON_TYPE> _summonsList;
 
     private void OnEnable()
     {
@@ -56,8 +69,16 @@ public class PlayerController : MonoBehaviour
     public void Init()
     {
         // Do any setup here
+        summonUI.Hide();
         deck.Init();
         cardDrawStrength = isPlayer ? 2 : 1;
+        _energy = 0;
+        _summonCost = 10;
+        _energyMultiplierWin = 1;
+        _energyMultiplierLose = 1;
+        _summonsList = new List<SUMMON_TYPE>();
+        
+        EnergyChangedAction?.Invoke(_energy, _summonCost);
     }
 
 
@@ -81,22 +102,14 @@ public class PlayerController : MonoBehaviour
         var startPosition = deck.GetTopCardPosition();
         var startRotation = Quaternion.Euler(new Vector3(0,0,-180));
         var handPositions =  _hand.GetHandPositions(cards.Count);
-        for(float t=0;t<cardDrawAnimationTime;t+=Time.deltaTime)
-        {
+        yield return AnimationUtils.Lerp(cardDrawAnimationTime, t => {
             for(int i=0;i<cards.Count;i++)
             {
-                cards[i].transform.position = Vector3.Lerp(startPosition, handPositions[i], t / cardDrawAnimationTime) + (Vector3.up * cardFlipHeightScale * cardFlipHeightCurve.Evaluate(t/cardDrawAnimationTime));
-                cards[i].transform.rotation = Quaternion.Lerp(startRotation, Quaternion.identity, t/cardDrawAnimationTime);
+                cards[i].transform.position = Vector3.Lerp(startPosition, handPositions[i], t) + (Vector3.up * cardFlipHeightScale * cardFlipHeightCurve.Evaluate(t));
+                cards[i].transform.rotation = Quaternion.Lerp(startRotation, Quaternion.identity, t);
                 cards[i].handPosition = i;
             }
-           yield return null;
-        }
-        // TODO -- clean this up in separate class
-        // we need to set the values to the final position (in cases we skipped the last partial move)
-        for(int i=0;i<cards.Count;i++){
-            cards[i].transform.position = handPositions[i];
-            cards[i].transform.rotation = Quaternion.identity;
-        }
+        });
 
         // Make the cards interactable
         for(int i=0;i<cards.Count;i++)
@@ -142,28 +155,24 @@ public class PlayerController : MonoBehaviour
 
         Quaternion targetRot = Quaternion.Euler(new Vector3(0,0,180));
         var handPositions = _hand.GetHandPositions(_hand.cards.Count);
-        for(float t=0;t<cardPlayAnimationTime;t+=Time.deltaTime)    
-        {
+
+        yield return AnimationUtils.Lerp(cardPlayAnimationTime, t => {
             for(int i=0;i<_hand.cards.Count;i++)
             {
                 if(_hand.cards[i] == card)
                 {
-                    _hand.cards[i].transform.position = Vector3.Lerp(handPositions[i], _hand.transform.position + Vector3.up * 0.5f, t/cardPlayAnimationTime);
+                    _hand.cards[i].transform.position = Vector3.Lerp(handPositions[i], _hand.transform.position + Vector3.up * 0.5f, t);
                     continue;
                 };
-                _hand.cards[i].transform.position = Vector3.Lerp(handPositions[i], deck.transform.position, t / cardPlayAnimationTime);
-                _hand.cards[i].transform.rotation = Quaternion.Lerp(Quaternion.identity, targetRot, t/cardPlayAnimationTime);
+                _hand.cards[i].transform.position = Vector3.Lerp(handPositions[i], deck.transform.position, t);
+                _hand.cards[i].transform.rotation = Quaternion.Lerp(Quaternion.identity, targetRot, t);
             }
-            yield return null;
-        }
+        });
 
         var startPosition = card.transform.position;
-        for(float t=0;t<cardPlayAnimationTime;t+=Time.deltaTime)
-        {
-            card.transform.position = Vector3.Lerp(startPosition, playedCardPosition.position, t / cardPlayAnimationTime);
-            yield return null;
-        }
-        card.transform.position = playedCardPosition.position;
+        yield return AnimationUtils.Lerp(cardPlayAnimationTime, t => {
+            card.transform.position = Vector3.Lerp(startPosition, playedCardPosition.position, t);
+        });
 
         // Put cards back in deck and clear hand
         _hand.cards.Remove(card);
@@ -182,10 +191,10 @@ public class PlayerController : MonoBehaviour
         return StartCoroutine(BattleCardsCoroutine(other));
     }
 
-    private IEnumerator BattleCardsCoroutine(PlayerController other)
+    private IEnumerator BattleCardsCoroutine(PlayerController otherPlayer)
     {
-        var targetCard = other.playedCard;
-        var otherDeck = other.deck;
+        var targetCard = otherPlayer.playedCard;
+        var otherDeck = otherPlayer.deck;
 
         // Do animation for capturing
         // For now we only capture one card -- TODO maybe more?
@@ -199,37 +208,30 @@ public class PlayerController : MonoBehaviour
         var c1Dir = card1Diff.normalized;
         var c2Dir = card1Diff.normalized;
 
-        for(float t=0;t<cardAttackAnimationTime;t+=Time.deltaTime)
-        {
-            playedCard.transform.position = card1Start + card1Diff * cardCaptureCurve.Evaluate(t/cardAttackAnimationTime);
-            targetCard.transform.position = card2Start + card2Diff * cardCaptureCurve.Evaluate(t/cardAttackAnimationTime);
-            /*
-            playedCard.transform.position = new Vector3(
-                    playedCard.transform.position.x, 
-                    Mathf.Lerp(startPosition.y, targetCard.transform.position.y + 0.05f, t/cardAttackAnimationTime), 
-                    startPosition.z + zDiff * this.cardCaptureCurve.Evaluate(t/cardAttackAnimationTime)
-                );
-                */
-            yield return null;
-        }
+        yield return AnimationUtils.Lerp(cardAttackAnimationTime, t => {
+            playedCard.transform.position = card1Start + card1Diff * t;
+            targetCard.transform.position = card2Start + card2Diff * t;
+        }, curve: cardCaptureCurve);
 
         // Cards deal damage to each other
         var c1Value = playedCard.cardData.value;
         var c2Value = targetCard.cardData.value;
-        playedCard.cardData.value -= Mathf.Min(c2Value,0);
-        targetCard.cardData.value -= Mathf.Min(c1Value,0);
+        playedCard.TakeDamage(c2Value);
+        targetCard.TakeDamage(c1Value);
 
+        // Apply energy
+        GainEnergy(playedCard.IsAlive ? playedCard.cardData.value : 1, playedCard.IsAlive);
+        otherPlayer.GainEnergy(targetCard.IsAlive ? targetCard.cardData.value : 1, targetCard.IsAlive);
+        
         yield return new WaitForSeconds(.2f);
         
         // Send cards back to deck
-        for(float t=0;t<cardPlayAnimationTime;t+=Time.deltaTime)    
-        {
-            if(playedCard.cardData.value > 0)
-                playedCard.transform.position = Vector3.Lerp(card1Start, deck.transform.position, t/cardPlayAnimationTime);
-            if(targetCard.cardData.value > 0)
-                targetCard.transform.position = Vector3.Lerp(card2Start, otherDeck.transform.position, t/cardPlayAnimationTime);
-            yield return null;
-        }
+        yield return AnimationUtils.Lerp(cardPlayAnimationTime, t => {
+            if(playedCard.IsAlive)
+                playedCard.transform.position = Vector3.Lerp(card1Start, deck.transform.position, t);
+            if(targetCard.IsAlive)
+                targetCard.transform.position = Vector3.Lerp(card2Start, otherDeck.transform.position, t);
+        });
 
         // Add cards to bottom of deck
         if(playedCard.cardData.value > 0)
@@ -243,29 +245,92 @@ public class PlayerController : MonoBehaviour
         yield return null;
     }
 
-    public Coroutine BattleTied() 
+    protected void GainEnergy(int value, bool isWin)
     {
-        return StartCoroutine(BattleTiedCoroutine());
+        int multiplier = isWin ? _energyMultiplierWin : _energyMultiplierLose;
+        _energy = Mathf.Clamp(_energy + value * multiplier, 0, _summonCost);
+        EnergyChangedAction?.Invoke(_energy, _summonCost);
     }
 
-    private IEnumerator BattleTiedCoroutine() 
+    public Coroutine TrySummon(PlayerController otherPlayer) => StartCoroutine(SummonCoroutine(otherPlayer));
+    protected virtual IEnumerator SummonCoroutine(PlayerController otherPlayer)
     {
-        // Send played card back to deck
-        for(float t=0;t<cardPlayAnimationTime;t+=Time.deltaTime)    
+        if(!CanSummon()) yield break;
+
+        // Present summon interface
+        // TODO -- fade in
+        summonUI.Show();
+        summonUI.Setup();
+
+        while(summonUI.selectedIndex < 0)
         {
-            playedCard.transform.position = Vector3.Lerp(playedCardPosition.position, deck.transform.position, t/cardPlayAnimationTime);
             yield return null;
         }
 
-        Card[] cards = { playedCard };
-        deck.AddCardsToBottom(cards);
+        SummonData summon = summonUI.GetChoice();
+        summonUI.selectedIndex = -1;
+        summonUI.Hide(); // hide ui
+        _summonsList.Add(summon.type);
+        yield return StartCoroutine(ApplySummonEffect(summon.type, otherPlayer));
 
-        Destroy(playedCard.gameObject);
     }
 
-    public bool CanDraw()
+    protected IEnumerator ApplySummonEffect(SUMMON_TYPE summonType, PlayerController enemy)
     {
-        return deck.CanDraw(cardDrawStrength);
+        switch(summonType)
+        {
+            case SUMMON_TYPE.DOG:
+                _summonCost = 5;
+                _energy = Mathf.Clamp(_energy,0,_summonCost);
+                EnergyChangedAction?.Invoke(_energy, _summonCost);
+                break;
+            case SUMMON_TYPE.DRAGON:
+                // TODO -- Display choice selection
+                break;
+            case SUMMON_TYPE.HORSE:
+                cardDrawStrength = Mathf.Clamp(cardDrawStrength + 1,0,5);
+                break;
+            case SUMMON_TYPE.MONKEY:
+                deck.RandomizeValues();
+                //TODO -- shuffle enemy deck?
+                break;
+            case SUMMON_TYPE.OX:
+                //TODO -- element selection
+                break;
+            case SUMMON_TYPE.PIG:
+                deck.RaiseTopCard(8);
+                break;
+            case SUMMON_TYPE.RABBIT:
+                deck.RaisePower(3,1);
+                break;
+            case SUMMON_TYPE.RAT:
+                deck.SplitDeck();
+                enemy.deck.SplitDeck();
+                break;
+            case SUMMON_TYPE.ROOSTER:
+                _energyMultiplierWin++;
+                break;
+            case SUMMON_TYPE.SHEEP:
+                deck.RaiseRandom(4,3);
+                break;
+            case SUMMON_TYPE.SNAKE:
+                _energyMultiplierLose++;
+                break;
+            case SUMMON_TYPE.TIGER:
+                deck.TransmuteCards(5);
+                break;
+            
+        }
+
+        // Subtract the cost
+        _energy = 0;
+        if(_summonCost != 10 && summonType != SUMMON_TYPE.DOG)
+        {
+            _summonCost = 10;
+        }
+        EnergyChangedAction?.Invoke(_energy, _summonCost);
+
+        yield return null;
     }
 
 }
