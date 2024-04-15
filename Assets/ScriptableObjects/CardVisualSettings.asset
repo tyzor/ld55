@@ -15,16 +15,16 @@ MonoBehaviour:
   cardTextures:
   - suit: 1
     frontTexture: {fileID: 2800000, guid: 4d08d954a4d264a399c50700ea4f6b43, type: 3}
-    fontColor: {r: 0.9622642, g: 0.54013884, b: 0.54013884, a: 1}
+    fontColor: {r: 1, g: 0.684, b: 0.684, a: 1}
   - suit: 2
     frontTexture: {fileID: 2800000, guid: 2ae88a58b15214501b88b43b9d7fb829, type: 3}
-    fontColor: {r: 0.56, g: 0.6790589, b: 1, a: 1}
+    fontColor: {r: 0.68, g: 0.7657143, b: 1, a: 1}
   - suit: 3
     frontTexture: {fileID: 2800000, guid: e4f375c9c7a004c03b0cfe14172128c6, type: 3}
-    fontColor: {r: 0.6666667, g: 0.6427211, b: 0.37333333, a: 1}
+    fontColor: {r: 1, g: 0.9744, b: 0.68, a: 1}
   - suit: 4
     frontTexture: {fileID: 2800000, guid: b431d138c8e7044c98e6a0b5d42055d3, type: 3}
-    fontColor: {r: 0.612, g: 0.59976, b: 0.612, a: 1}
+    fontColor: {r: 0.88699996, g: 0.86994225, b: 0.88699996, a: 1}
   - suit: 5
     frontTexture: {fileID: 2800000, guid: 60ecd39ad5b9144be8af6d50b882ae23, type: 3}
-    fontColor: {r: 0.70980394, g: 0.56094414, b: 0.3974902, a: 1}
+    fontColor: {r: 0.90099996, g: 0.764048, b: 0.61267996, a: 1}

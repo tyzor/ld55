@@ -54,6 +54,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     protected SummonUI summonUI;
 
+    [SerializeField]
+    protected SuitUI suitUI;
+
     private List<SUMMON_TYPE> _summonsList;
 
     private void OnEnable()
@@ -70,6 +73,7 @@ public class PlayerController : MonoBehaviour
     {
         // Do any setup here
         summonUI.Hide();
+        suitUI.Hide();
         deck.Init();
         cardDrawStrength = isPlayer ? 2 : 1;
         _energy = 0;
@@ -285,7 +289,24 @@ public class PlayerController : MonoBehaviour
                 EnergyChangedAction?.Invoke(_energy, _summonCost);
                 break;
             case SUMMON_TYPE.DRAGON:
-                // TODO -- Display choice selection
+                
+                CARDSUIT choice;
+                if(isPlayer)
+                {
+                    suitUI.Show();
+
+                    while(suitUI.selectedIndex < 0)
+                    {
+                        yield return null;
+                    }
+                    choice = suitUI.GetSelection();
+                    suitUI.selectedIndex = -1; 
+                    suitUI.Hide();
+                } else {
+                    choice = CardData.RandomCard().suit;
+                }
+                deck.AddPack(choice, 5);
+                
                 break;
             case SUMMON_TYPE.HORSE:
                 cardDrawStrength = Mathf.Clamp(cardDrawStrength + 1,0,5);
@@ -295,7 +316,23 @@ public class PlayerController : MonoBehaviour
                 //TODO -- shuffle enemy deck?
                 break;
             case SUMMON_TYPE.OX:
-                //TODO -- element selection
+            
+                CARDSUIT suitChoice;
+                if(isPlayer)
+                {
+                    suitUI.Show();
+                    while(suitUI.selectedIndex < 0)
+                    {
+                        yield return null;
+                    }
+                    suitChoice = suitUI.GetSelection();
+                    suitUI.selectedIndex = -1; 
+                    suitUI.Hide();
+                } else {
+                    suitChoice = CardData.RandomCard().suit;
+                }
+                deck.RaisePowerSuit(suitChoice, 1);
+
                 break;
             case SUMMON_TYPE.PIG:
                 deck.RaiseTopCard(8);

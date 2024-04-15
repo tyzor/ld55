@@ -73,6 +73,14 @@ public class Deck : MonoBehaviour
             DeckChanged();
         }
     }
+    public void AddCardsToBottom(CardData[] cards)
+    {
+        foreach(CardData card in cards)
+        {
+            decklist.Add(card);
+            DeckChanged();
+        }
+    }
 
     public void AddCardToBottom(Card card)
     {
@@ -134,6 +142,17 @@ public class Deck : MonoBehaviour
         }
     }
 
+    // Ox power -- raise suit power
+    public void RaisePowerSuit(CARDSUIT suit, int amount)
+    {
+        foreach(CardData card in decklist)
+        {
+            if(card.suit == suit)
+                card.value += amount;
+        }
+    }
+
+
     public CardData[] GetRandomCards(int numCards)
     {
         
@@ -164,6 +183,19 @@ public class Deck : MonoBehaviour
             decklist.RemoveAt(0);
         }
         DeckChangedAction?.Invoke(decklist);
+    }
+
+    // Dragon power
+    public void AddPack(CARDSUIT suit, int numCards)
+    {
+        CardData[] cards = new CardData[numCards];
+        for(int n=0;n<numCards;n++)
+        {
+            CardData card = CardData.RandomCard();
+            card.suit = suit;
+            cards[n] = card;
+        }
+        AddCardsToBottom(cards);
     }
 
 

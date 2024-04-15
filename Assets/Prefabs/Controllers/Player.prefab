@@ -287,7 +287,7 @@ MonoBehaviour:
   _hand: {fileID: 8078590311270097361}
   playedCardPosition: {fileID: 102006105401297382}
   isPlayer: 1
-  cardDrawAnimationTime: 1
+  cardDrawAnimationTime: 0.6
   cardFlipHeightCurve:
     serializedVersion: 2
     m_Curve:
@@ -345,8 +345,17 @@ MonoBehaviour:
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 1
+      time: 0.791567
       value: 1
+      inSlope: 0.0151045695
+      outSlope: 0.0151045695
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 1
+    - serializedVersion: 3
+      time: 1
+      value: 0
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -363,6 +372,7 @@ MonoBehaviour:
     m_Bits: 64
   cardDrawStrength: 1
   summonUI: {fileID: 0}
+  suitUI: {fileID: 0}
 --- !u!1 &6014400870427449166
 GameObject:
   m_ObjectHideFlags: 0
