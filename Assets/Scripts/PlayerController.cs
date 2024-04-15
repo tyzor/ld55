@@ -55,11 +55,19 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField]
     protected SummonUI summonUI;
+    
+    [SerializeField]
+    protected SummonListUI summonListUI;
 
     [SerializeField]
     protected SuitUI suitUI;
 
     private List<SUMMON_TYPE> _summonsList;
+
+    [SerializeField]
+    private Transform candle;
+
+    // =============================================================
 
     private void OnEnable()
     {
@@ -75,6 +83,7 @@ public class PlayerController : MonoBehaviour
     {
         // Do any setup here
         summonUI.Hide();
+        summonListUI.ClearList();
         suitUI.Hide();
         deck.Init();
         cardDrawStrength = isPlayer ? 2 : 1;
@@ -262,6 +271,7 @@ public class PlayerController : MonoBehaviour
         _energy = Mathf.Clamp(_energy + value * multiplier, 0, _summonCost);
         EnergyChangedAction?.Invoke(_energy, _summonCost);
         SFX.ENERGY_GAIN.PlaySoundDelayedRandom(0,0.05f);
+        EnergyParticleVFX.Create(value, Vector3.zero, candle.position);
     }
 
     public Coroutine TrySummon(PlayerController otherPlayer) => StartCoroutine(SummonCoroutine(otherPlayer));
@@ -283,6 +293,7 @@ public class PlayerController : MonoBehaviour
         summonUI.selectedIndex = -1;
         summonUI.Hide(); // hide ui
         _summonsList.Add(summon.type);
+        summonListUI.AddSummon(summon.type);
         yield return StartCoroutine(ApplySummonEffect(summon.type, otherPlayer));
 
     }

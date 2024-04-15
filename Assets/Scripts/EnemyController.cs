@@ -57,9 +57,8 @@ public class EnemyController : PlayerController
 
         
         SummonData summon = summonUI.MakeAIChoice();
+        summonListUI.AddSummon(summon.type);
         
-        // TODO -- animation showing what was picked
-        Debug.Log($"Enemy Summoned {summon.name}");
 
         yield return StartCoroutine(ApplySummonEffect(summon.type, otherPlayer));
 
