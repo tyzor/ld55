@@ -36,7 +36,10 @@ namespace Gameplay
         // Start is called before the first frame update
         void Start()
         {
-            StartGame();
+            // TODO -- Add intro graphic
+            GameplayUI.DisplayOptionWindow("ZODIAC LEGENDS", "BEGIN", () => {
+                StartGame();
+            });
         }
 
         // Update is called once per frame
@@ -137,15 +140,20 @@ namespace Gameplay
         {
             // TODO -- win VFX
             Debug.Log("PLAYER WON!!!!");
-            yield return new WaitForSeconds(.5f);
+            GameplayUI.DisplayOptionWindow("VICTORY", "PLAY", () => {
+                StartGame();
+            });
+            yield return null;
         }
 
         private IEnumerator LoseCoroutine()
         {
             // TODO -- win VFX
             Debug.Log("PLAYER LOST!!!!");
-            // TODO -- show replay level
-            yield return new WaitForSeconds(.5f);
+            GameplayUI.DisplayOptionWindow("DEFEAT", "RETRY", () => {
+                StartGame();
+            });
+            yield return null;
         }
 
         private void OnGameStateChanged(GAME_STATE newGameState)
@@ -174,6 +182,13 @@ namespace Gameplay
                 playerController.DrawCards(3);
                 |*/
                 
+        }
+
+        private void DebugTest()
+        {
+            GameplayUI.DisplayOptionWindow("INTRO", "START", () => {
+                StartGame();
+            });
         }
 
     }
