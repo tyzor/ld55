@@ -66,7 +66,6 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField]
     private Transform candle;
-
     // =============================================================
 
     private void OnEnable()
