@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using Audio;
+using Audio.SoundFX;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -77,6 +79,7 @@ public class DeckListUI : MonoBehaviour
     private void OnButtonClick()
     {
         Debug.Log("Deck button clicked");
+        SFX.SELECTION.PlaySound();
         Toggle();
     }
 

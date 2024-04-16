@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.UI;
+using Audio;
+using Audio.SoundFX;
 
 public class ChoiceUI : MonoBehaviour
 {
@@ -24,6 +26,7 @@ public class ChoiceUI : MonoBehaviour
     private void OnChoiceSelect(int index)
     {
         Debug.Log($"Choice {index} selected");
+        SFX.SELECTION.PlaySound();
         selectedIndex = index;
     }
 

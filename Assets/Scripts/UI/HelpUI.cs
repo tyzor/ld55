@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using Audio;
+using Audio.SoundFX;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -33,6 +35,7 @@ public class HelpUI : MonoBehaviour
     void OnButtonClick()
     {
         _toggleState = !_toggleState;
+        SFX.SELECTION.PlaySound();
         Animate();
     }
 
