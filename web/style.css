@@ -1,0 +1,22 @@
+:root, body {
+    margin: 0;
+    padding: 0;
+    width: 100vw;
+}
+
+body {
+    background: fixed no-repeat url('./images/mountains_fg.svg'),
+        fixed no-repeat url('./images/mountains_bg.svg');
+    /*background-size: contain, contain;*/
+    background-size: cover, cover;
+    background-position-x: center, center;
+    background-position-y: 20vh, center;
+}
+
+#game {
+    width: 50vw;
+    height: 120vh;
+    background: lightslategrey;
+    opacity: .8;
+    margin: auto;
+}
