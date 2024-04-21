@@ -4,13 +4,36 @@
     width: 100vw;
 }
 
+@keyframes clouds {
+
+    0% {
+        background-position-x: center, 50%, center;
+    }
+  
+    50% {
+        background-position-x: center, -100vw, center;
+    }
+
+    50.001% {
+        background-position-x: center, 100vw, center;
+    }
+
+    100% {
+         background-position-x: center, 50%, center;
+    }
+  
+  }
+
+
 body {
     background: fixed no-repeat url('./images/mountains_fg.svg'),
+        fixed repeat-x url('./images/test.svg'),
         fixed no-repeat url('./images/mountains_bg.svg');
     /*background-size: contain, contain;*/
-    background-size: cover, cover;
-    background-position-x: center, center;
-    background-position-y: 20vh, center;
+    background-size: cover, contain, cover;
+    background-position-x: center, center, center;
+    background-position-y: 20vh, 20vh, center;
+    animation: linear 10s clouds infinite;
 }
 
 #game {

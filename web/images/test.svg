@@ -1,0 +1,10 @@
+<?xml version="1.0" standalone="no"?>
+<svg viewBox="0,0,500,500" width="800px" height="300px" id="test" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <filter id="filter" height="300%" width="300%" y="-100%" x="-100%" >
+            <feTurbulence type="fractalNoise" seed="462" baseFrequency="0.011" numOctaves="5" result="noise1" />
+            <feGaussianBlur in="SourceGraphic" stdDeviation="23" />
+            <feDisplacementMap scale="140" in2="noise1" result="cloud1" />
+        </filter>
+    </defs>
+<ellipse cx="50%" cy="50%" rx="400" ry="50"  style="fill: #ffffff;filter:url(#filter)"></ellipse></svg>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cloud Generator</title>
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+
+    <style>
+        .cloud {
+            filter: url(#filter)
+        }
+        body { 
+            background: slategray
+        }
+    </style>
+</head>
+<body>
+    <svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" style="position:absolute;">
+        <filter id="filter" height="300%" width="300%" y="-100%" x="-100%" >
+            <feTurbulence type="fractalNoise" seed="462" baseFrequency="0.011" numOctaves="5" result="noise1" />
+            <feGaussianBlur in="SourceGraphic" stdDeviation="23" />
+            <feDisplacementMap scale="140" in2="noise1" result="cloud1" />
+        </filter>
+    </svg>
+    
+    <button id="generateBtn">GENERATE</button>
+    <script src="cloud.js"></script>
+</body>
+</html>
